@@ -2,11 +2,25 @@ import {ModuleMap, ModulePojo, Registry, SimpleRegistryData, SimpleRegistryPojo}
 import {SimpleRegistryDataImpl} from "./SimpleDataRegistryImpl";
 import {Module} from "./Module";
 import {Map} from "immutable";
-import * as fs from "fs";
 
 interface SimpleRegistryArgs {
+    getJsonString: () => string;
     runId?: number;
     load?: boolean;
+    persistence: SimpleRegistryPersistence;
+}
+
+export interface SimpleRegistryLoadFunction {
+ (): string;
+}
+
+export interface SimpleRegistrySaveFunction {
+ (data: SimpleRegistryData): void;
+}
+
+export interface SimpleRegistryPersistence {
+  load(): SimpleRegistryData;
+  persist(data: SimpleRegistryData) : void;
 }
 
 export class SimpleRegistry implements Registry {
@@ -14,6 +28,8 @@ export class SimpleRegistry implements Registry {
     private dataImpl = new SimpleRegistryDataImpl(0);
     private data: SimpleRegistryData = this.dataImpl;
     private load: boolean = false;
+    public getJsonString: () => string;
+    private persistence: SimpleRegistryPersistence;
 
     public getModuleByName(name: string): Module | undefined {
         return this.data.getModuleByName(name);
@@ -38,7 +54,7 @@ export class SimpleRegistry implements Registry {
 
     // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
     public init(): void {
-        const data: SimpleRegistryPojo = JSON.parse(fs.readFileSync('registry.json', {encoding: 'utf-8'}));
+        const data: SimpleRegistryPojo = JSON.parse(this.getJsonString());
         this.loadData(data);
         if (!this.load && (data.runId === undefined
             || data.runId !== this.runId)) {
@@ -57,7 +73,8 @@ export class SimpleRegistry implements Registry {
     public constructor(args: SimpleRegistryArgs) {
         this.runId = args.runId;
         this.load = args.load || false;
-
+        this.getJsonString = args.getJsonString;
+        this.persistence = args.persistence
     }
 
     public getModule(key: string, name: string, create: boolean = false): Module {
@@ -73,24 +90,7 @@ export class SimpleRegistry implements Registry {
     }
 
     public save() {
-        const modules = this.data.modules.map<ModulePojo>((v) => {
-            if (!v.toPojo) {
-                throw new Error('no pojo');
-            }
-            return v.toPojo();
-        }).toJS();
-        const data = {
-            runId: this.data.runId,
-            moduleKeys: this.data.moduleKeys,
-            modules
-        };
-        let x;
-        try {
-            const x = JSON.stringify(data, null, 4);
-            fs.writeFileSync('registry.json', x, 'utf-8');
-        } catch (error) {
-            console.log(error);
-        }
+	this.persistence.persist(this.data);
     }
 
     public setModule(key: string, module: Module): void {
