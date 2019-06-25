@@ -61,16 +61,17 @@ export interface Initializable {
 export type ModuleMap = Map<string, Module>;
 
 export interface GetModuleFunction {
-    (key: string, name: string, create?: boolean): Module;
+    (key: string, name: string, create?: boolean): Module | undefined;
 }
 export interface RegistryBase {
-    getModule: GetModuleFunction;
+    getModule (key: string, name: string, create?: boolean): Module | undefined;
     getModuleByName(name: string): Module | undefined;
+    getModuleKey(name: string): string;
     setModule(key: string, module: Module): void;
 }
 
 /* How does Registry differ from SimpleDataRegistry? */
-export interface Registry extends Initializable , RegistryBase{
+export interface Registry extends Initializable, RegistryBase{
     /**
      * @deprecated
      */

@@ -77,7 +77,7 @@ export class SimpleRegistry implements Registry {
         this.persistence = args.persistence
     }
 
-    public getModule(key: string, name: string, create: boolean = false): Module {
+    public getModule(key: string, name: string, create: boolean = false): Module|undefined {
         return this.data.getModule(key, name, create);
     }
 

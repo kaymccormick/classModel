@@ -1,6 +1,6 @@
 import { Registry } from './types';
 
-export function process(registry: Registry) {
+export function processRegistry(registry: Registry) {
     registry.modules.forEach((module) => {
         console.log(`module ${module.name}`);
         module.imports.forEach(import1 => {
