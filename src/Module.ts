@@ -72,9 +72,9 @@ class Module {
         return this.name;
     }
 
-    public addImport(name: string, full: string, isDefault?: boolean, isNamespaceImport?: boolean): Import {
-        const import1 = new Import(name, full, isDefault || false, isNamespaceImport ||false);
-        this.imports = this.imports.set(name, import1);
+    public addImport(moduleName: string, localName: string, exportedName: string, isDefault?: boolean, isNamespaceImport?: boolean): Import {
+        const import1 = new Import(moduleName, localName, exportedName, isDefault || false, isNamespaceImport ||false);
+        this.imports = this.imports.set(localName, import1);
         return import1;
     }
 

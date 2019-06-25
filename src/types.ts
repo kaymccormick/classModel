@@ -39,7 +39,8 @@ export interface ReferencePojo {
 }
 
 export interface ImportPojo {
-    name: string;
+    localName?: string;
+    exportedName?: string;
     sourceModule: string;
     isDefaultImport: boolean;
     isNamespaceImport: boolean;

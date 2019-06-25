@@ -1,13 +1,15 @@
 import {ImportPojo, PojoBuilder} from "./types";
 
 export class Import implements PojoBuilder<ImportPojo> {
-    public name: string;
+    public localName?: string;
+    public exportedName?: string;
     public sourceModule: string;
     public isDefaultImport: boolean;
     public isNamespaceImport: boolean;
 
-    public constructor(name: string, sourceModule: string, isDefaultImport: boolean, isNamespaceImport: boolean) {
-        this.name = name;
+    public constructor(sourceModule: string, localName?: string, exportedName?: string, isDefaultImport: boolean = false, isNamespaceImport: boolean = false) {
+        this.localName = localName;
+	this.exportedName = exportedName;
         this.sourceModule = sourceModule;
         this.isDefaultImport = isDefaultImport;
         this.isNamespaceImport = isNamespaceImport;
@@ -18,7 +20,7 @@ export class Import implements PojoBuilder<ImportPojo> {
     }
 
     public static fromPojo(v: ImportPojo): Import {
-        return new Import(v.name, v.sourceModule, v.isDefaultImport, v.isNamespaceImport);
+        return new Import(v.sourceModule, v.localName, v.exportedName, v.isDefaultImport, v.isNamespaceImport);
 
     }
 }

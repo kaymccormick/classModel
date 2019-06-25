@@ -4,7 +4,7 @@ export function processRegistry(registry: Registry) {
     registry.modules.forEach((module) => {
         console.log(`module ${module.name}`);
         module.imports.forEach(import1 => {
-            console.log(`  import ${import1.name}`);
+            console.log(`  import ${import1.localName}`);
         })
         module.classes.forEach(moduleClass => {
             console.log(`  class ${moduleClass.name}`);
