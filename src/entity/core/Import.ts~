@@ -1,0 +1,18 @@
+import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne} from "typeorm";
+import {Project} from "./Project";
+import {Project} from "./Module";
+
+@Entity()
+export class Export {
+    @PrimaryGeneratedColumn()
+    public id: number;
+
+    @Column()
+    public localName: string;
+
+    @Column()
+    public name: string;
+
+    @ManyToOne(type => Module, module => project.exports)
+    module: Module;
+}

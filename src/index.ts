@@ -6,3 +6,4 @@ export { Reference } from './Reference';
 export { Import } from './Import';
 export { Export } from './Export';
 export {Type} from './Type';
+export { TypeOrmRegistry } from './TypeOrmRegistry';

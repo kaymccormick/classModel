@@ -1,0 +1,29 @@
+import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany} from "typeorm";
+import {Project} from "./Project";
+import {Class} from "./Class";
+import {List} from 'immutable';
+
+@Entity()
+export class Module {
+    @PrimaryGeneratedColumn()
+    public id: number;
+
+    @Column()
+    public name: string;
+
+    @ManyToOne(type => Project, project => project.modules)
+    project: Project;
+
+    @OneToMany(type => Class, class_ => class_.module)
+    public classes: List<Class>;
+
+    constructor(moduleId: number, moduleName: string, project: Project, classes: List<Class>) {
+        this.id = moduleId;
+        this.name = moduleName;
+        this.project = project;
+	this.classes = classes;
+    }
+}
+
+
+

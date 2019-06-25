@@ -1,0 +1,15 @@
+import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne} from "typeorm";
+import {List} from "immutable";
+
+@Entity
+export class Parameter {
+    @PrimaryGeneratedColumn()
+    public id: number;
+
+    @Column()
+    public name: string;
+
+    @ManyToOne(type => Method, method => method.parmaters)
+    public method: Method;
+    
+}

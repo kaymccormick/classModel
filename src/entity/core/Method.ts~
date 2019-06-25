@@ -1,0 +1,7 @@
+import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne} from "typeorm";
+import {List} from "immutable";
+
+export class Method {
+  public name: string;
+  public parameters: List<Parameter>;
+  }
