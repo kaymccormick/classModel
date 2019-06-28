@@ -1,11 +1,11 @@
 import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany} from "typeorm";
 import {Project} from "./Project";
 import {Class} from "./Class";
-import {List} from 'immutable';
 import {Export} from "./Export";
 import {Import} from "./Import";
 
-@Entity()
+
+@Entity({name: "modules"})
 export class Module {
     @PrimaryGeneratedColumn()
     // @ts-ignore
@@ -18,24 +18,24 @@ export class Module {
     project: Project;
 
     @OneToMany(type => Class, class_ => class_.module)
-    public classes: List<Class>;
+    public classes: Class[];
 
     @OneToMany(type => Export, export_ => export_.module)
-    public exports: List<Export>;
+    public exports: Export[];
 
     @OneToMany(type => Import, import_ => import_.module)
-    public imports: List<Import>;
+    public imports: Import[];
 
-    constructor(/*moduleId: number, */moduleName: string, project: Project, classes: List<Class>,
-                exports: List<Export>, imports: List<Import>) {
-        //this.id = moduleId;
+    public constructor(moduleName: string, project: Project, classes: Class[],
+                exports: Export[], imports: Import[]) {
         this.name = moduleName;
         this.project = project;
 	this.classes = classes;
 this.exports = exports;
 this.imports= imports;
     }
+
+public toString(): string {
+return `<Module name=${this.name} project=${this.project.name}/>`;
 }
-
-
-
+}

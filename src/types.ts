@@ -65,7 +65,7 @@ export interface GetModuleFunction {
     (key: string, name: string, create?: boolean): Module | undefined;
 }
 export interface RegistryBase {
-    getModule (key: string, name: string, create?: boolean): Module | undefined;
+    getModule (key: string, name: string, create?: boolean): Promise<Module>;
     getModuleByName(name: string): Module | undefined;
     getModuleKey(name: string): string;
     setModule(key: string, module: Module): void;

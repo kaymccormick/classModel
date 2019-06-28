@@ -5,10 +5,17 @@ import {Method} from "./Method";
 @Entity()
 export class Class {
     @PrimaryGeneratedColumn()
+    // @ts-ignore
     public id: number;
 
     @ManyToOne(type => Module, module => module.classes)
     public module: Module;
+
+    @ManyToOne(type => Class, class_ => class_.subclasses, { nullable: true })
+    public superclass?: Class;
+
+    @OneToMany(type => Class, class_ => class_.superclass)
+    public subclasses: Class[];
 
     @Column()
     public name: string;
@@ -16,11 +23,10 @@ export class Class {
     @OneToMany(type => Method, method => method.classProperty)
     public methods: Method[];
 
-
-    constructor(id: number, module: Module, name: string, methods: Method[]) {
-        this.id = id;
+    public constructor(module: Module, name: string, methods: Method[], subclasses: Class[]) {
         this.module = module;
         this.name = name;
         this.methods = methods;
+	this.subclasses = subclasses;
     }
 }

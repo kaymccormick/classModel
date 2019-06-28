@@ -5,7 +5,7 @@ import {Module} from "./Module";
 @Entity()
 export class Export {
     @PrimaryGeneratedColumn()
-    public id: number;
+    public id?: number;
 
     @Column()
     public localName: string;
@@ -16,8 +16,7 @@ export class Export {
     @ManyToOne(type => Module, module => module.exports)
     module: Module;
 
-   public constructor(id: number, localName: string, name: string, module: Module) {
-     this.id = id;
+   public constructor(localName: string, name: string, module: Module) {
      this.localName = localName;
      this.name = name;
      this.module = module;
