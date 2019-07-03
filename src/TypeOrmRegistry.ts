@@ -22,7 +22,7 @@ constructor(connection: Connection, project: Project) {
         if(modules.length) {
             return modules[0];
         }
-        const m = new EntityModule(name, this.project, [], [], []);
+        const m = new EntityModule(name, this.project, [], [], [], []);
         return moduleRepository.save(m);
         }).catch(error => {
         console.log(error);

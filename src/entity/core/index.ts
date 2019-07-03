@@ -1,7 +1,10 @@
 export { Class } from './Class';
+export { Interface } from './Interface';
 export { Export } from './Export';
 export { Import } from './Import';
+export { Name } from './Name';
 export { Method } from './Method';
+export { InterfaceMethod } from './InterfaceMethod';
 export { Module } from './Module';
 export { Parameter } from './Parameter';
 export { Project } from './Project';

@@ -12,7 +12,6 @@ import {Project} from "./Project";
 import {Class} from "./Class";
 import {Export} from "./Export";
 import {Import} from "./Import";
-import {Name} from "./Name";
 
 
 @Entity({name: "modules"})
@@ -40,17 +39,13 @@ export class Module {
     @OneToMany(type => Import, import_ => import_.module)
     public imports: Import[];
 
-    @OneToMany(type => Name, name => name.module)
-    public names: Name[];
-
     public constructor(moduleName: string, project: Project, classes: Class[],
-                exports: Export[], imports: Import[],names:Name[]) {
+                exports: Export[], imports: Import[]) {
         this.name = moduleName;
         this.project = project;
 	this.classes = classes;
 this.exports = exports;
 this.imports= imports;
-this.names = names;
     }
 
 public toString(): string {
