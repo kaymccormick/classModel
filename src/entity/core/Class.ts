@@ -1,4 +1,4 @@
-import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany,ManyToMany,JoinTable} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany,ManyToMany,JoinTable,Generated} from "typeorm";
 import {Module} from './Module';
 import {Method} from "./Method";
 import {Interface} from './Interface';
@@ -8,6 +8,10 @@ export class Class {
     @PrimaryGeneratedColumn()
     // @ts-ignore
     public id: number;
+
+    @Column()
+    @Generated('uuid')
+    public uuid?: string;
 
     @ManyToOne(type => Module, module => module.classes)
     public module: Module;
@@ -21,8 +25,6 @@ export class Class {
     @ManyToMany(type => Interface, { cascade:true})
     @JoinTable()
     public implements?: Interface[]
-
-
 
     @Column()
     public name: string;
