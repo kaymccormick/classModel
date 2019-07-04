@@ -1,6 +1,7 @@
-import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinColumn,OneToOne} from "typeorm";
 import {List} from "immutable";
 import { TypeEnum } from './TypeEnum';
+import { Name } from './Name';
 
 @Entity()
 export class Type {
@@ -12,7 +13,7 @@ export class Type {
 
     @OneToOne(type => Name)
     @JoinColumn()
-    public name?: Name;
+    public typeName?: Name;
 
     @Column({name: 'basetype', nullable: true})
     public baseType?: TypeEnum;

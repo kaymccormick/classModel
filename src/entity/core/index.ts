@@ -1,3 +1,7 @@
+export { TSType } from './TSType';
+export { Type } from './Type';
+export { TypeEnum } from './TypeEnum';
+export { Property } from './Property';
 export { Class } from './Class';
 export { Interface } from './Interface';
 export { Export } from './Export';

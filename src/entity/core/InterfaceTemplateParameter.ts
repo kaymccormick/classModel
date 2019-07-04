@@ -4,7 +4,7 @@ import {Method} from "./Method";
 import { Type } from './Type';
 
 @Entity()
-export class Parameter {
+export class InterfaceTemplateParameter {
     @PrimaryGeneratedColumn()
     public id?: number;
 

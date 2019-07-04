@@ -1,6 +1,8 @@
-import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany,ManyToMany,JoinColumn} from "typeorm";
 import {Module} from './Module';
+import {Property} from './Property';
 import {InterfaceMethod} from "./InterfaceMethod";
+import {InterfaceProperty} from "./InterfaceProperty";
 
 @Entity()
 export class Interface {
@@ -21,9 +23,16 @@ export class Interface {
 
     @Column()
     public name?: string;
+
+    @OneToMany(type => InterfaceProperty, prop => prop.iface)
+    public properties: InterfaceProperty[];
+    
     @Column({name: "astnode", type: "jsonb", nullable: true})
     public astNode: any;
 
+/*    @ManyToMany(type => Property, { cascade:true })
+    @JoinColumn()
+    public properties?: Property[];*/
     public constructor() {
     }
 }
