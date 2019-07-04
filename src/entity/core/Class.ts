@@ -18,9 +18,11 @@ export class Class {
     @OneToMany(type => Class, class_ => class_.superClass)
     public subClasses?: Class[];
 
-    @ManyToMany(type => Interface)
+    @ManyToMany(type => Interface, { cascade:true})
     @JoinTable()
     public implements?: Interface[]
+
+
 
     @Column()
     public name: string;
@@ -29,10 +31,13 @@ export class Class {
     public methods: Method[];
 
     @Column({name: "astnode", type: "jsonb", nullable: true})
-    public astNode: any;
+    public astNode?: any;
 
     @Column({name: "superclassnode", type: "jsonb", nullable: true})
-    public superClassNode: any;
+    public superClassNode?: any;
+
+    @Column({name: "implementsnode", type: "jsonb", nullable: true})
+    public implementsNode?: any;
 
     public constructor(module: Module, name: string, methods: Method[], subclasses: Class[]) {
         this.module = module;
