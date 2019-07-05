@@ -1,5 +1,6 @@
-export { TSType } from './TSType';
+export { InterfaceProperty } from './InterfaceProperty';
 export { Type } from './Type';
+export { TSType } from './TSType';
 export { TypeEnum } from './TypeEnum';
 export { Property } from './Property';
 export { Class } from './Class';

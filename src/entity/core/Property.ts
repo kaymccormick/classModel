@@ -2,7 +2,7 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToM
 
 export class Property {
     @Column()
-    public name: string;
+    public name?: string;
 
     @Column()
     public computed?: boolean;

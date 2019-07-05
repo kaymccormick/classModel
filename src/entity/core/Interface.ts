@@ -25,7 +25,7 @@ export class Interface {
     public name?: string;
 
     @OneToMany(type => InterfaceProperty, prop => prop.iface)
-    public properties: InterfaceProperty[];
+    public properties?: InterfaceProperty[];
     
     @Column({name: "astnode", type: "jsonb", nullable: true})
     public astNode: any;
