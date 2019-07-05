@@ -19,6 +19,9 @@ export class Name {
     @PrimaryGeneratedColumn()
     public id?: number;
 
+    @Column()
+    public moduleId?: number;
+
     @ManyToOne(type => Module, module => module.names)
     public module?: Module;
 

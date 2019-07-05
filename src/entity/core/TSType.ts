@@ -1,4 +1,4 @@
-import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinColumn,OneToOne} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinColumn,OneToOne,ManyToMany,AfterInsert,BeforeInsert,AfterLoad} from "typeorm";
 import {List} from "immutable";
 import { TypeEnum } from './TypeEnum';
 import { Name } from './Name';
@@ -20,19 +20,30 @@ export class TSType {
     @PrimaryGeneratedColumn()
     public id?: number;
 
-    @Column()
-    public name?: string;
-
-    @OneToOne(type => Name, { nullable: true })
+/*    @OneToOne(type => Name, { nullable: true })
     @JoinColumn()
-    public typeName?: Name;
+    public typeName?: Name;*/
+
+    @Column({name: 'tsnodetype'})
+    public tsNodeType?: string;
 
     @Column({name: 'basetype', nullable: true})
     public baseType?: TypeEnum;
 
-    @ManyToOne(type => Module)
+    @Column()
+    public moduleId?: number;
+
+    @ManyToOne(type => Module, module => module.types)
     @JoinColumn()
     public module?: Module;
+
+    @Column({name: "astnode", type: "jsonb", nullable: true})
+    public astNode?: any;
+
+    @AfterInsert()
+    afterInsert() {
+    console.log('after insert');
+    }
 
     constructor() {
     }

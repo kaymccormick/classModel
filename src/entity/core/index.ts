@@ -1,3 +1,5 @@
+export { TSTypeReference } from './TSTypeReference';
+export { TSUnionType } from './TSUnionType';
 export { InterfaceProperty } from './InterfaceProperty';
 export { Type } from './Type';
 export { TSType } from './TSType';

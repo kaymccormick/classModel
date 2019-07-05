@@ -30,9 +30,6 @@ export class Interface {
     @Column({name: "astnode", type: "jsonb", nullable: true})
     public astNode: any;
 
-/*    @ManyToMany(type => Property, { cascade:true })
-    @JoinColumn()
-    public properties?: Property[];*/
     public constructor() {
     }
 }

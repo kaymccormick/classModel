@@ -9,6 +9,7 @@ import {
     JoinColumn
 } from "typeorm";
 import {Project} from "./Project";
+import {TSType} from "./TSType";
 import {Class} from "./Class";
 import {Export} from "./Export";
 import {Import} from "./Import";
@@ -42,6 +43,9 @@ export class Module {
 
     @OneToMany(type => Name, name => name.module)
     public names: Name[];
+
+    @OneToMany(type => TSType, type => type.module)
+    public types?: TSType[];
 
     public constructor(moduleName: string, project: Project, classes: Class[],
                 exports: Export[], imports: Import[],names:Name[]) {
