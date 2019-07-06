@@ -1,7 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinColumn} from "typeorm";
 import {List} from "immutable";
 import {Method} from "./Method";
-import { Type } from './Type';
+import { TSType } from './TSType';
 
 @Entity()
 export class Parameter {
@@ -17,12 +17,19 @@ export class Parameter {
     @ManyToOne(type => Method, method => method.parameters)
     public method?: Method;
 
-    @ManyToOne(type => Type)
+@Column()
+public typeId?: number;
+
+@ManyToOne(type => TSType)
     @JoinColumn()
-    public type?: Type;
+    public type?: TSType;
 
     constructor(name: string, method: Method) {
         this.name = name;
         this.method = method;
+    }
+
+    public toString():string {
+    return `<Parameter method=${this.method}; name=${this.name}; type=${this.type || this.typeId}/>`;
     }
 }

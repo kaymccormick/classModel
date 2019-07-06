@@ -28,7 +28,7 @@ export class Name {
     @Column()
     public name?: string;
 
-    @Column({name: 'namekind'})
+    @Column({name: 'namekind', nullable:true})
     public nameKind?: string;
 
     @Column({type: 'jsonb', name: 'astnode', nullable: true})

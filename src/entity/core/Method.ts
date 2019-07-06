@@ -27,4 +27,8 @@ public accessibility?: string;
         this.parameters = parameters;
         this.classProperty = classProperty;
     }
+
+public toString():string {
+return `<Method class=${this.classProperty} name=${this.name}/>`;
+}
 }

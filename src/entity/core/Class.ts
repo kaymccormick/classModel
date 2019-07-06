@@ -13,6 +13,9 @@ export class Class {
     @Generated('uuid')
     public uuid?: string;
 
+@Column()
+public moduleId?: number;
+
     @ManyToOne(type => Module, module => module.classes)
     public module: Module;
 
@@ -47,4 +50,9 @@ export class Class {
         this.methods = methods;
 	this.subClasses = subclasses;
     }
+
+public toString(): string {
+return `<Class module=${this.module || this.moduleId} name=${this.name}/>`;
+}
+
 }

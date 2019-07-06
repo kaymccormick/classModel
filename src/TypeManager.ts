@@ -1,30 +1,52 @@
 import {Connection, Repository} from 'typeorm';
 import {EntityCore} from './';
+import { copyTree } from './utils';
+import { namedTypes } from 'ast-types';
+import{ CreateTypeManagerArgs } from './args';
+import winston from 'winston';
 
 export class TypeManager {
+private connection: Connection;
+private createdBy: string;
 private tsTypeRepository: Repository<EntityCore.TSType>;
-public constructor(private connection: Connection) {
-this.tsTypeRepository = connection.getRepository(EntityCore.TSType);
+private logger: winston.Logger;
+
+public constructor(args: CreateTypeManagerArgs) {
+this.connection = args.connection;
+this.createdBy = args.createdBy;
+this.logger = args.logger;
+this.tsTypeRepository = this.connection.getRepository(EntityCore.TSType);
 }
 
 public findType(moduleId: number, astNode:any): Promise<EntityCore.TSType|undefined> {
 return this.tsTypeRepository.find({moduleId, astNode}).then(types => {
-console.log(types.length);
-if(types.length === 0) {
+if(types.length > 1) {
+throw new Error('too many types matchingm');
+} else if(types.length === 0) {
+console.log('cant find type');
 return undefined;
 }
+console.log('found type');
 return types[0];
 });
 }
 
-public createType(moduleId: number, astNode?: any): Promise<EntityCore.TSType> {
+public createType(moduleId: number, astNode?: any|undefined, origin?: string): Promise<EntityCore.TSType> {
   const tsType = new EntityCore.TSType();
   tsType.moduleId = moduleId;
   tsType.astNode = astNode;
   tsType.tsNodeType = astNode.type;
-  return this.tsTypeRepository.save(tsType).then(tsType1 => {
+  tsType.origin = origin;
+  //@ts-ignore
+  tsType.createdBy = this.createdBy;
+  return this.findType(moduleId, astNode).then(type => {
+  if(type) {
+  throw new Error('existing type');
+  }
+  }).then(() => 
+  this.tsTypeRepository.save(tsType).then(tsType1 => {
   if (astNode.type === 'TSTypeReference') {
-                                  // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                             const ref = new EntityCore.TSTypeReference(tsType1.id!);
                             const nameRepo = this.connection.getRepository(EntityCore.Name);
                             if(astNode.typeName.type !== 'Identifier') {
@@ -36,6 +58,7 @@ public createType(moduleId: number, astNode?: any): Promise<EntityCore.TSType> {
                                 name,
                             }).then(names => {
                                 if (names.length === 0) {
+                                console.log('found no names');
                                     const name_ = new EntityCore.Name();
                                     name_.name = name;
                                     name_.moduleId = moduleId;
@@ -46,21 +69,26 @@ public createType(moduleId: number, astNode?: any): Promise<EntityCore.TSType> {
                             }).then(name__ => {
                                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                                 const ref = new EntityCore.TSTypeReference(tsType1.id!);
+                                console.log(`creating ts type reference with id ${tsType1.id!}`);
                                 ref.typeName = name__;
-                                return this.connection.manager.save(ref);
+                                return this.connection.manager.save(ref).catch((error: Error): void =>{
+                                console.log(`unable to save ts type reference: ${error.message}`);
+                                }).then(() => tsType1);
                             });
 
                         } else if (astNode.type === 'TSUnionType') {
-                            return this.handleTSUnionType(tsType1, astNode, this.tsTypeRepository, args);
+                            return this.handleTSUnionType(tsType1, astNode, this.tsTypeRepository);
                         }
-                        });
+                        return tsType1;
+                        }).catch((error:Error):void =>{
+  throw new Error(`unable to save tstype:${error.message}`);
+  }));
                         }
 
-    private static handleTSUnionType(type: EntityCore.TSType,
+    private handleTSUnionType(type: EntityCore.TSType,
         t1: namedTypes.TSUnionType,
         tsTypeRepo: Repository<EntityCore.TSType>,
-        iface: EntityCore.Interface,
-        args: Args): Promise<any> {
+        ): Promise<any> {
         console.log('union type');
         if (!type.id) {
             throw new Error('need id');
@@ -68,19 +96,22 @@ public createType(moduleId: number, astNode?: any): Promise<EntityCore.TSType> {
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         const union = new EntityCore.TSUnionType(type.id!);
         return (t1.types.map((unionNode: namedTypes.TSType) => {
-            return () => tsTypeRepo.find({
+            return () => this.tsTypeRepository.find({
                 where: {
                     astNode: copyTree(unionNode).toJS(),
-                    module: iface.module
+                    moduleId: type.moduleId,
                 }
             }).then(ts => {
                 console.log(`got ${ts.length} types`);
                 if (ts.length === 0) {
+                return this.createType(type.moduleId!, copyTree(unionNode).toJS(), 'union');
+/*                
                     const newType = new EntityCore.TSType();
                     newType.tsNodeType = unionNode.type;
-                    newType.astNode = copyTree(unionNode).toJS();
-                    newType.module = iface.module;
-                    return tsTypeRepo.save(newType);
+                    newType.astNode = ;
+                    newType.moduleId = type.moduleId;
+                    newType.createdBy = this.createdBy;
+                    return tsTypeRepo.save(newType);*/
                 } else {
                     return ts[0];
                 }
@@ -92,9 +123,7 @@ public createType(moduleId: number, astNode?: any): Promise<EntityCore.TSType> {
             union.types = results;
 
             console.log(union);
-            return args.connection.getRepository(EntityCore.TSUnionType).save(union).then(union_ => {
-                console.log(union_);
-            }).catch((error: Error): void => {
+            return this.connection.getRepository(EntityCore.TSUnionType).save(union).then(() => type).catch((error: Error): void => {
                 console.log('unable to save union type ' + error.message);
             });
         });//.reduce((a: Promise<void>, v: () => Promise<void>): Promise<void> => a.then(() => v()), Promise.resolve(undefined));

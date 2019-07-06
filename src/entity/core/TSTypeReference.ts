@@ -9,7 +9,7 @@ export class TSTypeReference {
     @PrimaryColumn()
     public id?: number;
 
-    @OneToOne(type => Name)
+    @ManyToOne(type => Name)
     @JoinColumn()
     public typeName?: Name;
 

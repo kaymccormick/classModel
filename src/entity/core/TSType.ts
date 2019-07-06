@@ -20,11 +20,17 @@ export class TSType {
     @PrimaryGeneratedColumn()
     public id?: number;
 
+    @Column({nullable: true, name: 'createdby'})
+    public createdBy?: string;
+
+    @Column({nullable: true, name: 'origin'})
+    public origin?: string;
+
 /*    @OneToOne(type => Name, { nullable: true })
     @JoinColumn()
     public typeName?: Name;*/
 
-    @Column({name: 'tsnodetype'})
+    @Column({name: 'tsnodetype',nullable:true})
     public tsNodeType?: string;
 
     @Column({name: 'basetype', nullable: true})
@@ -47,4 +53,8 @@ export class TSType {
 
     constructor() {
     }
+
+public toString():string {
+return `<TSType{${this.id}} module=${this.module||this.moduleId} astNode=${JSON.stringify(this.astNode)}/>`;
+}
 }
