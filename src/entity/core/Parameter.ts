@@ -2,6 +2,7 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinCol
 import {List} from "immutable";
 import {Method} from "./Method";
 import { TSType } from './TSType';
+import {ParameterPojo}from '../../pojo';
 
 @Entity()
 export class Parameter {
@@ -28,6 +29,10 @@ public typeId?: number;
         this.name = name;
         this.method = method;
     }
+
+public toPojo(): ParameterPojo {
+return { id: this.id, name: this.name, ordinal: this.ordinal, method: this.method ? this.method.toPojo() : undefined };
+}
 
     public toString():string {
     return `<Parameter method=${this.method}; name=${this.name}; type=${this.type || this.typeId}/>`;

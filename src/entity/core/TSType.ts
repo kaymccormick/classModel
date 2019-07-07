@@ -4,7 +4,8 @@ import { TypeEnum } from './TypeEnum';
 import { Name } from './Name';
 import { Module } from './Module';
 import {Logger} from "winston";
-import { TSTypePojo, PojoBuilder } from '../../types';
+import { PojoBuilder } from '../../types';
+import {TSTypePojo} from "../../pojo";
 
 /*
 TSExpressionWithTypeArguments | TSTypeReference | TSAnyKeyword |

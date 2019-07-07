@@ -1,5 +1,6 @@
-import {ParameterPojo, PojoBuilder} from "./types";
+import {PojoBuilder} from "./types";
 import {Type} from "./Type";
+import {ParameterPojo} from "./pojo";
 
 export class Parameter implements PojoBuilder<ParameterPojo> {
     public name: string;

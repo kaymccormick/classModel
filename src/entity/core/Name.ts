@@ -13,6 +13,7 @@ import {Class} from "./Class";
 import {Export} from "./Export";
 import {Import} from "./Import";
 import {Module} from "./Module";
+import {NamePojo} from '../../pojo';
 
 @Entity()
 export class Name {
@@ -36,6 +37,16 @@ export class Name {
 
     public constructor() {
     }
+
+public toPojo(): NamePojo {
+return { id: this.id ,
+moduleId: this.moduleId,
+module: this.module ? this.module.toPojo() : undefined,
+name: this.name,
+nameKind: this.nameKind,
+astNode: this.astNode,
+}
+}
 
 public toString(): string {
 return `<Name module=${this.module} name=${this.name}/>`;

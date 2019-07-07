@@ -2,6 +2,7 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToM
 import {Module} from './Module';
 import {Method} from "./Method";
 import {Interface} from './Interface';
+import {ClassPojo} from'../../pojo';
 
 @Entity()
 export class Class {
@@ -50,6 +51,20 @@ public moduleId?: number;
         this.methods = methods;
 	this.subClasses = subclasses;
     }
+
+
+public toPojo(): ClassPojo {
+return { id:this.id,
+uuid: this.uuid,
+superClass:this.superClass ? this.superClass.toPojo() : undefined,
+implements:this.implements ? this.implements.map(i => i.toPojo()) : undefined,
+name: this.name,
+methods: this.methods.map(m => m.toPojo()),
+astNode:this.astNode,
+superClassNode:this.superClassNode,
+implementsNode: this.implementsNode,
+}
+}
 
 public toString(): string {
 return `<Class module=${this.module || this.moduleId} name=${this.name}/>`;

@@ -1,8 +1,9 @@
-import {MethodPojo, ParameterPojo, PojoBuilder} from "./types";
+import {PojoBuilder} from "./types";
 import {Parameter} from "./Parameter";
 import {List} from "immutable";
 import {Type} from "./Type";
 import * as kinds from 'ast-types/gen/kinds'
+import {MethodPojo, ParameterPojo} from "./pojo";
 export class Method implements PojoBuilder<MethodPojo> {
     public addParamNode(pk: kinds.PatternKind) {
         throw new Error(pk.type);

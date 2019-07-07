@@ -14,6 +14,7 @@ import {Class} from "./Class";
 import {Export} from "./Export";
 import {Import} from "./Import";
 import {Name} from "./Name";
+import {ModulePojo} from '../../pojo';
 
 
 @Entity({name: "modules"})
@@ -48,7 +49,7 @@ public projectId?: number;
     public names: Name[];
 
     @OneToMany(type => TSType, type => type.module)
-    public types?: TSType[];
+    public types: TSType[];
 
     public constructor(moduleName: string, project: Project, classes: Class[],
                 exports: Export[], imports: Import[],names:Name[]) {
@@ -58,7 +59,20 @@ public projectId?: number;
 this.exports = exports;
 this.imports= imports;
 this.names = names;
+this.types = [];
     }
+
+public toPojo(): ModulePojo {
+return { id: this.id,
+name:this.name,
+projectId:this.projectId,
+classes:this.classes.map(c=>c.toPojo()),
+exports:this.exports.map(e=>e.toPojo()),
+imports:this.imports.map(i=>i.toPojo()),
+names:this.names.map(n=>n.toPojo()),
+types:this.types.map(t=>t.toPojo()),
+}
+}
 
 public toString(): string {
 return `<Module name=${this.name} project=${this.project || this.projectId}/>`;

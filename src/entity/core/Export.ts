@@ -1,6 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne} from "typeorm";
 import {Project} from "./Project";
 import {Module} from "./Module";
+import {ExportPojo} from '../../pojo';
 
 @Entity()
 export class Export {
@@ -24,4 +25,15 @@ export class Export {
      this.exportedName = exportedName;
      this.module = module;
   }
+
+public toPojo(): ExportPojo {
+return {
+id:this.id,
+localName:this.localName,
+exportedName:this.exportedName,
+module:this.module,
+isDefaultExport:this.isDefaultExport,
 }
+}
+}
+

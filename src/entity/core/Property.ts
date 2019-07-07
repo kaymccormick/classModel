@@ -1,5 +1,6 @@
 import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany,JoinColumn} from "typeorm";
 import {TSType} from './TSType';
+import {PropertyPojo} from '../../pojo';
 
 export class Property {
     @Column()
@@ -23,4 +24,16 @@ export class Property {
 
     @Column({name: "astnode", type: "jsonb", nullable: true})
     public astNode: any;
+
+public toPojo(): PropertyPojo {
+return {
+name: this.name,
+computed: this.computed,
+readonly:this.readonly,
+optional:this.optional,
+hasInitializer:this.hasInitializer,
+type:this.type?this.type.toPojo():undefined,
+astNode:this.astNode,
+}
+}
 }

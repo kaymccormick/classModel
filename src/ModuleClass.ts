@@ -1,7 +1,8 @@
-import {MethodPojo, ModuleClassPojo} from "./types";
+import {ModuleClassPojo} from "./types";
 import {Reference} from "./Reference";
 import {Method} from "./Method";
 import { Map } from 'immutable';
+import {MethodPojo} from "./pojo";
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SuperClassSpecification {

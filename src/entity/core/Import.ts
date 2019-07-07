@@ -1,6 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne} from "typeorm";
 import {Project} from "./Project";
 import {Module} from "./Module";
+import { ImportPojo } from '../../pojo';
 
 @Entity({name: "imports"})
 export class Import {
@@ -32,6 +33,18 @@ export class Import {
         this.isDefaultImport = isDefaultImport;
         this.isNamespaceImport = isNamespaceImport;
     }
+
+public toPojo(): ImportPojo {
+return {
+id: this.id,
+module: this.module.toPojo(),
+localName:this.localName,
+sourceModuleName:this.sourceModuleName,
+exportedName:this.exportedName,
+isDefaultImport:this.isDefaultImport,
+isNamespaceImport:this.isNamespaceImport,
+}
+}
 
 public toString(): string {
 return `<Import ${this.module.name} ${this.localName}/>`;

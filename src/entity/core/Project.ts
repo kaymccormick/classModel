@@ -1,5 +1,7 @@
 import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, OneToMany} from "typeorm";
 import {Module} from "./Module";
+import{ProjectPojo} from '../../pojo';
+
 
 @Entity()
 export class Project {
@@ -17,6 +19,11 @@ export class Project {
         this.name = name;
         this.modules = modules;
     }
+
+public toPojo(): ProjectPojo{
+return {id:this.id, name:this.name,modules:this.modules.map(m=>m.toPojo())};
+}
+
 
 public toString(): string {
 return `<Project name=${this.name}/>`;
