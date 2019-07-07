@@ -20,57 +20,56 @@ import {ModulePojo} from '../../pojo';
 @Entity({name: "modules"})
 export class Module {
     @PrimaryGeneratedColumn()
-    // @ts-ignore
-    public id: number;
+    public id?: number;
 
     @Column()
-    public name: string;
+    public name?: string;
 
 @Column()
 public projectId?: number;
 
     @ManyToOne(type => Project, project => project.modules)
-    project: Project;
+    public project?: Project;
 
     @OneToMany(type => Class, class_ => class_.module)
-    public classes: Class[];
+    public classes?: Class[];
 
     @OneToOne(type => Export)
     @JoinColumn()
-    defaultExport?: Export;
+    public defaultExport?: Export;
 
     @OneToMany(type => Export, export_ => export_.module)
-    public exports: Export[];
+    public exports?: Export[];
 
     @OneToMany(type => Import, import_ => import_.module)
-    public imports: Import[];
+    public imports?: Import[];
 
     @OneToMany(type => Name, name => name.module)
-    public names: Name[];
+    public names?: Name[];
 
     @OneToMany(type => TSType, type => type.module)
-    public types: TSType[];
+    public types?: TSType[];
 
     public constructor(moduleName: string, project: Project, classes: Class[],
-                exports: Export[], imports: Import[],names:Name[]) {
+                exports: Export[], imports: Import[],names:Name[],types:TSType[]) {
         this.name = moduleName;
         this.project = project;
 	this.classes = classes;
 this.exports = exports;
 this.imports= imports;
 this.names = names;
-this.types = [];
+this.types = types;
     }
 
 public toPojo(): ModulePojo {
 return { id: this.id,
 name:this.name,
 projectId:this.projectId,
-classes:this.classes.map(c=>c.toPojo()),
-exports:this.exports.map(e=>e.toPojo()),
-imports:this.imports.map(i=>i.toPojo()),
-names:this.names.map(n=>n.toPojo()),
-types:this.types.map(t=>t.toPojo()),
+classes:this.classes?this.classes.map(c=>c.toPojo()):undefined,
+exports:this.exports?this.exports.map(e=>e.toPojo()):undefined,
+imports:this.imports?this.imports.map(i=>i.toPojo()):undefined,
+names:this.names?this.names.map(n=>n.toPojo()):undefined,
+types:this.types?this.types.map(t=>t.toPojo()):undefined,
 }
 }
 

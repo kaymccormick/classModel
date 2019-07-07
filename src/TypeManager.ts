@@ -1,5 +1,5 @@
 import {Connection, Repository} from 'typeorm';
-import {EntityCore} from './';
+import EntityCore from './entityCore';
 import { copyTree } from './utils';
 import { namedTypes } from 'ast-types';
 import{ CreateTypeManagerArgs } from './args';

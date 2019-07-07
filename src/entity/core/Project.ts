@@ -6,14 +6,13 @@ import{ProjectPojo} from '../../pojo';
 @Entity()
 export class Project {
     @PrimaryGeneratedColumn()
-    // @ts-ignore
-    public id: number;
+    public id?: number;
 
     @Column()
-    public name: string;
+    public name?: string;
 
     @OneToMany(type => Module, module => module.project)
-    public modules: Module[];
+    public modules?: Module[];
 
     public constructor(name: string, modules: Module[]) {
         this.name = name;
@@ -21,7 +20,7 @@ export class Project {
     }
 
 public toPojo(): ProjectPojo{
-return {id:this.id, name:this.name,modules:this.modules.map(m=>m.toPojo())};
+return {id:this.id, name:this.name,modules:this.modules?this.modules.map(m=>m.toPojo()):[]};
 }
 
 
