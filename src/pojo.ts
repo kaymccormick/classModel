@@ -1,5 +1,4 @@
 import {TypeEnum} from "./entity/core";
-import {Module} from "./Module";
 import {TypePojo} from "./types";
 
 export interface NamePojo {
