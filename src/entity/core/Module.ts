@@ -25,6 +25,9 @@ export class Module {
     @Column()
     public name: string;
 
+@Column()
+public projectId?: number;
+
     @ManyToOne(type => Project, project => project.modules)
     project: Project;
 
@@ -58,6 +61,6 @@ this.names = names;
     }
 
 public toString(): string {
-return `<Module name=${this.name} project=${this.project.name}/>`;
+return `<Module name=${this.name} project=${this.project || this.projectId}/>`;
 }
 }

@@ -1,4 +1,4 @@
-import {ExportPojo} from "./types";
+import {AppExportPojo as ExportPojo} from "./types";
 
 class Export {
     public name?: string;

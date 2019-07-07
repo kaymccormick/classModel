@@ -3,6 +3,8 @@ import {List} from "immutable";
 import { TypeEnum } from './TypeEnum';
 import { Name } from './Name';
 import { Module } from './Module';
+import {Logger} from "winston";
+import { TSTypePojo, PojoBuilder } from '../../types';
 
 /*
 TSExpressionWithTypeArguments | TSTypeReference | TSAnyKeyword |
@@ -16,7 +18,7 @@ TSOptionalType | TSIndexedAccessType | TSTypeOperator | TSTypeQuery |
 TSImportType | TSTypeLiteral;
 */
 @Entity()
-export class TSType {
+export class TSType implements PojoBuilder<TSTypePojo> {
     @PrimaryGeneratedColumn()
     public id?: number;
 
@@ -48,11 +50,23 @@ export class TSType {
 
     @AfterInsert()
     afterInsert() {
-    console.log('after insert');
+    this.logger.info('after insert', { tstype: this.toPojo() });
     }
 
-    constructor() {
+    constructor(private logger: Logger) {
     }
+
+public toPojo(): TSTypePojo {
+return {
+id: this.id,
+createdBy: this.createdBy,
+origin:this.origin,
+tsNodeType:this.tsNodeType,
+baseType: this.baseType,
+moduleId:this.moduleId,
+astNode:this.astNode,
+}
+}
 
 public toString():string {
 return `<TSType{${this.id}} module=${this.module||this.moduleId} astNode=${JSON.stringify(this.astNode)}/>`;

@@ -1,6 +1,6 @@
 import {ModuleClass} from "./ModuleClass";
 import {Map} from 'immutable';
-import {ExportPojo, ImportPojo, ModuleClassPojo, ModulePojo, ReferencePojo} from "./types";
+import {AppExportPojo as ExportPojo, AppImportPojo as ImportPojo, ModuleClassPojo, AppModulePojo as ModulePojo, ReferencePojo} from "./types";
 import {Export} from "./Export";
 import {Interface} from "./Interface";
 import {namedTypes} from 'ast-types';

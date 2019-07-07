@@ -1,4 +1,4 @@
-import {ImportPojo, PojoBuilder} from "./types";
+import {AppImportPojo as ImportPojo, PojoBuilder} from "./types";
 
 export class Import implements PojoBuilder<ImportPojo> {
     public localName?: string;

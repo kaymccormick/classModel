@@ -1,9 +1,128 @@
 import {List, Map} from 'immutable';
 import {Module} from "./Module";
+import * as EntityCore from './entity/core';
+import { TypeEnum } from './entity/core/TypeEnum';
 
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 export  interface GetRegistryInvocationArgs {
 
+}
+
+export interface NamePojo {
+id?: number;
+
+moduleId?: number;
+
+module?: ModulePojo;
+
+name?: string;
+
+ nameKind?: string;
+
+ astNode: any;
+}
+
+export interface ClassPojo {
+id?: number;
+uuid?: string;
+moduleId?: number;
+module?: ModulePojo;
+superClass?: ClassPojo;
+subClasses?: ClassPojo[];
+implements?: InterfacePojo[]
+name?: string;
+methods?: MethodPojo[];
+astNode?: any;
+superClassNode?: any;
+implementsNode?: any;
+}
+
+
+export interface ExportPojo {
+id?: number;
+
+localName?: string;
+
+exportedName?: string;
+
+module?: Module;
+
+isDefaultExport?: boolean;
+}
+export interface ImportPojo {
+id?: number;
+   module?: Module;
+ localName?: string;
+ sourceModuleName?: string;
+ exportedName?: string;
+ isDefaultImport?: boolean;
+ isNamespaceImport?: boolean;
+}
+export interface InterfacePojo{
+id?: number;
+
+module?: Module;
+
+extends?: InterfacePojo;
+
+subinterfaces?: InterfacePojo[];
+
+methods?: InterfacePojo[];
+
+name?: string;
+
+properties?: InterfacePropertyPojo[];
+    
+ astNode: any;
+
+}
+
+export interface InterfacePropertyPojo {
+}
+
+
+export interface ModulePojo {
+    id?: number;
+
+name?: string;
+
+projectId?: number;
+
+    project?: ProjectPojo;
+
+classes?: ClassPojo[];
+
+    defaultExport?: ExportPojo;
+
+exports?: ExportPojo[];
+
+imports?: ImportPojo[];
+
+names?: NamePojo[];
+
+ types?: TSTypePojo[];
+}
+
+
+export interface ProjectPojo {
+       id: number;
+
+name: string;
+
+    modules: ModulePojo[];
+}
+export interface TSTypePojo {
+id?: number;
+createdBy?: string;
+origin?: string;
+tsNodeType?: string;
+baseType?: TypeEnum;
+moduleId?: number;
+astNode?: any;
+}
+
+export interface FactoryInterface {
+  createTSType(): EntityCore.TSType;
 }
 
 export interface PojoBuilder<T> {
@@ -27,7 +146,7 @@ export interface ParameterPojo {
     name: string;
     type?: TypePojo;
 }
-export interface ExportPojo {
+export interface AppExportPojo {
     name?: string;
     localName?: string;
     isDefaultExport?: boolean;
@@ -38,7 +157,7 @@ export interface ReferencePojo {
 
 }
 
-export interface ImportPojo {
+export interface AppImportPojo {
     localName?: string;
     exportedName?: string;
     sourceModule: string;
@@ -46,12 +165,12 @@ export interface ImportPojo {
     isNamespaceImport: boolean;
 }
 
-export interface ModulePojo {
+export interface AppModulePojo {
     name: string;
     key: string;
     classes: Map<string, ModuleClassPojo>;
-    exports: Map<string, ExportPojo>;
-    imports: Map<string, ImportPojo>;
+    exports: Map<string, AppExportPojo>;
+    imports: Map<string, AppImportPojo>;
     references: Map<string, ReferencePojo>;
 }
 

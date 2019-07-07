@@ -3,18 +3,24 @@ import {EntityCore} from './';
 import { copyTree } from './utils';
 import { namedTypes } from 'ast-types';
 import{ CreateTypeManagerArgs } from './args';
-import winston from 'winston';
+import{ FactoryInterface } from './types';
+import winston,{Logger} from 'winston';
 
 export class TypeManager {
 private connection: Connection;
 private createdBy: string;
 private tsTypeRepository: Repository<EntityCore.TSType>;
 private logger: winston.Logger;
+private factory: FactoryInterface;
 
 public constructor(args: CreateTypeManagerArgs) {
 this.connection = args.connection;
 this.createdBy = args.createdBy;
 this.logger = args.logger;
+if(!this.logger) {
+throw new Error('need logger');
+}
+this.factory = args.factory;
 this.tsTypeRepository = this.connection.getRepository(EntityCore.TSType);
 }
 
@@ -23,16 +29,16 @@ return this.tsTypeRepository.find({moduleId, astNode}).then(types => {
 if(types.length > 1) {
 throw new Error('too many types matchingm');
 } else if(types.length === 0) {
-console.log('cant find type');
+this.logger.debug('cant find type');
 return undefined;
 }
-console.log('found type');
+this.logger.debug('found type');
 return types[0];
 });
 }
 
 public createType(moduleId: number, astNode?: any|undefined, origin?: string): Promise<EntityCore.TSType> {
-  const tsType = new EntityCore.TSType();
+  const tsType = this.factory.createTSType();
   tsType.moduleId = moduleId;
   tsType.astNode = astNode;
   tsType.tsNodeType = astNode.type;
@@ -58,7 +64,7 @@ public createType(moduleId: number, astNode?: any|undefined, origin?: string): P
                                 name,
                             }).then(names => {
                                 if (names.length === 0) {
-                                console.log('found no names');
+                                this.logger.debug('found no names');
                                     const name_ = new EntityCore.Name();
                                     name_.name = name;
                                     name_.moduleId = moduleId;
@@ -69,10 +75,10 @@ public createType(moduleId: number, astNode?: any|undefined, origin?: string): P
                             }).then(name__ => {
                                 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                                 const ref = new EntityCore.TSTypeReference(tsType1.id!);
-                                console.log(`creating ts type reference with id ${tsType1.id!}`);
+                                this.logger.debug(`creating ts type reference with id ${tsType1.id!}`);
                                 ref.typeName = name__;
                                 return this.connection.manager.save(ref).catch((error: Error): void =>{
-                                console.log(`unable to save ts type reference: ${error.message}`);
+                                this.logger.debug(`unable to save ts type reference: ${error.message}`);
                                 }).then(() => tsType1);
                             });
 
@@ -89,7 +95,7 @@ public createType(moduleId: number, astNode?: any|undefined, origin?: string): P
         t1: namedTypes.TSUnionType,
         tsTypeRepo: Repository<EntityCore.TSType>,
         ): Promise<any> {
-        console.log('union type');
+        this.logger.debug('union type');
         if (!type.id) {
             throw new Error('need id');
         }
@@ -102,11 +108,11 @@ public createType(moduleId: number, astNode?: any|undefined, origin?: string): P
                     moduleId: type.moduleId,
                 }
             }).then(ts => {
-                console.log(`got ${ts.length} types`);
+                this.logger.debug(`got ${ts.length} types`);
                 if (ts.length === 0) {
                 return this.createType(type.moduleId!, copyTree(unionNode).toJS(), 'union');
 /*                
-                    const newType = new EntityCore.TSType();
+                    const newType = this.factory.createTSType();
                     newType.tsNodeType = unionNode.type;
                     newType.astNode = ;
                     newType.moduleId = type.moduleId;
@@ -118,13 +124,13 @@ public createType(moduleId: number, astNode?: any|undefined, origin?: string): P
             });
             // @ts-ignore
         })).reduce((a, v) => a.then(r => v().then(cr => [...r, cr])), Promise.resolve([])).then(results => {
-            console.log('saving union type');
-            console.log(results);
+            this.logger.debug('saving union type');
+            this.logger.debug(results);
             union.types = results;
 
-            console.log(union);
+            this.logger.debug(union);
             return this.connection.getRepository(EntityCore.TSUnionType).save(union).then(() => type).catch((error: Error): void => {
-                console.log('unable to save union type ' + error.message);
+                this.logger.debug('unable to save union type ' + error.message);
             });
         });//.reduce((a: Promise<void>, v: () => Promise<void>): Promise<void> => a.then(() => v()), Promise.resolve(undefined));
     }
