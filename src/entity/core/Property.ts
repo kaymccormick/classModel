@@ -25,15 +25,15 @@ export class Property {
     @Column({name: "astnode", type: "jsonb", nullable: true})
     public astNode: any;
 
-public toPojo(): PropertyPojo {
-return {
-name: this.name,
-computed: this.computed,
-readonly:this.readonly,
-optional:this.optional,
-hasInitializer:this.hasInitializer,
-type:this.type?this.type.toPojo():undefined,
-astNode:this.astNode,
-}
-}
+    public toPojo(): PropertyPojo {
+        return {
+            name: this.name,
+            computed: this.computed,
+            readonly:this.readonly,
+            optional:this.optional,
+            hasInitializer:this.hasInitializer,
+            type:this.type?this.type.toPojo():undefined,
+            astNode:this.astNode,
+        }
+    }
 }

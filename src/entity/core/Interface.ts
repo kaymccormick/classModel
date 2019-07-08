@@ -31,17 +31,17 @@ export class Interface {
     @Column({name: "astnode", type: "jsonb", nullable: true})
     public astNode: any;
 
-public toPojo(): InterfacePojo {
-return {id:this.id,
-module: this.module ?this.module.toPojo():undefined,
-extends: this.extends ?this.extends.toPojo():undefined,
-subinterfaces: this.subinterfaces ?this.subinterfaces.map(i => i.toPojo()) : [],
-methods: this.methods? this.methods.map(m => m.toPojo()) :[],
-name:this.name,
-properties:this.properties?this.properties.map(p=>p.toPojo()):[],
-astNode:this.astNode,
-}
-}
+    public toPojo(): InterfacePojo {
+        return {id:this.id,
+            module: this.module ?this.module.toPojo():undefined,
+            extends: this.extends ?this.extends.toPojo():undefined,
+            subinterfaces: this.subinterfaces ?this.subinterfaces.map(i => i.toPojo()) : [],
+            methods: this.methods? this.methods.map(m => m.toPojo()) :[],
+            name:this.name,
+            properties:this.properties?this.properties.map(p=>p.toPojo()):[],
+            astNode:this.astNode,
+        }
+    }
 
     public constructor() {
     }

@@ -9,7 +9,7 @@ export class TSUnionType {
     @PrimaryColumn()
     public id?: number;
 
-/*    @OneToOne(type => Name, { nullable: true })
+    /*    @OneToOne(type => Name, { nullable: true })
     @JoinColumn()
     public typeName?: Name;*/
 
@@ -21,6 +21,6 @@ export class TSUnionType {
     public astNode?: any;
 
     constructor(id: number) {
-    this.id = id;
+        this.id = id;
     }
 }

@@ -9,7 +9,7 @@ export class Import implements PojoBuilder<ImportPojo> {
 
     public constructor(sourceModule: string, localName?: string, exportedName?: string, isDefaultImport: boolean = false, isNamespaceImport: boolean = false) {
         this.localName = localName;
-	this.exportedName = exportedName;
+        this.exportedName = exportedName;
         this.sourceModule = sourceModule;
         this.isDefaultImport = isDefaultImport;
         this.isNamespaceImport = isNamespaceImport;

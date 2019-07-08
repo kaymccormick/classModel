@@ -14,6 +14,6 @@ export class TSTypeReference {
     public typeName?: Name;
 
     constructor(id: number) {
-    this.id = id;
+        this.id = id;
     }
 }

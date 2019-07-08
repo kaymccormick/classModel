@@ -20,20 +20,20 @@ export class Export {
     @Column({name: "isdefaultexport"})
     isDefaultExport: boolean = false;
 
-   public constructor(localName: string | undefined, exportedName: string | undefined, module: Module) {
-     this.localName = localName;
-     this.exportedName = exportedName;
-     this.module = module;
-  }
+    public constructor(localName: string | undefined, exportedName: string | undefined, module: Module) {
+        this.localName = localName;
+        this.exportedName = exportedName;
+        this.module = module;
+    }
 
-public toPojo(): ExportPojo {
-return {
-id:this.id,
-localName:this.localName,
-exportedName:this.exportedName,
-module:this.module,
-isDefaultExport:this.isDefaultExport,
-}
-}
+    public toPojo(): ExportPojo {
+        return {
+            id:this.id,
+            localName:this.localName,
+            exportedName:this.exportedName,
+            module:this.module,
+            isDefaultExport:this.isDefaultExport,
+        }
+    }
 }
 

@@ -115,7 +115,7 @@ export interface TSTypePojo {
 }
 
 export interface ParameterPojo {
-    id?:number;
+    id?: number;
     name?: string;
     ordinal?: number;
     type?: TSTypePojo;
@@ -131,29 +131,29 @@ export interface MethodPojo {
     accessibility?: string;
 }
 export interface InterfaceMethodPojo {
-id?: number;
+    id?: number;
 
-name?: string;
+    name?: string;
 
-parameters?: ParameterPojo[];
-interface_?: InterfacePojo;
-astNode?: any;
-accessibility?: string;
+    parameters?: ParameterPojo[];
+    interface_?: InterfacePojo;
+    astNode?: any;
+    accessibility?: string;
 }
 export interface InterfacePropertyPojo {
-id?:number,
-iface?:InterfacePojo,
-property?:PropertyPojo,
+    id?: number;
+    iface?: InterfacePojo;
+    property?: PropertyPojo;
 }
 
 export interface PropertyPojo {
-name?: string;
+    name?: string;
 
-computed?: boolean;
+    computed?: boolean;
     
-readonly?: boolean;
-optional?: boolean;
-hasInitializer?: boolean;
-type?: TSTypePojo;
-astNode: any;
+    readonly?: boolean;
+    optional?: boolean;
+    hasInitializer?: boolean;
+    type?: TSTypePojo;
+    astNode: any;
 }

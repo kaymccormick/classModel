@@ -40,15 +40,15 @@ export class Module {
     public imports: Import[];
 
     public constructor(moduleName: string, project: Project, classes: Class[],
-                exports: Export[], imports: Import[]) {
+        exports: Export[], imports: Import[]) {
         this.name = moduleName;
         this.project = project;
-	this.classes = classes;
-this.exports = exports;
-this.imports= imports;
+        this.classes = classes;
+        this.exports = exports;
+        this.imports= imports;
     }
 
-public toString(): string {
-return `<Module name=${this.name} project=${this.project.name}/>`;
-}
+    public toString(): string {
+        return `<Module name=${this.name} project=${this.project.name}/>`;
+    }
 }

@@ -19,12 +19,12 @@ export class Project {
         this.modules = modules;
     }
 
-public toPojo(): ProjectPojo{
-return {id:this.id, name:this.name,modules:this.modules?this.modules.map(m=>m.toPojo()):[]};
-}
+    public toPojo(): ProjectPojo{
+        return {id:this.id, name:this.name,modules:this.modules?this.modules.map(m=>m.toPojo()):[]};
+    }
 
 
-public toString(): string {
-return `<Project name=${this.name}/>`;
-}
+    public toString(): string {
+        return `<Project name=${this.name}/>`;
+    }
 }

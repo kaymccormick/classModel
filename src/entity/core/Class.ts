@@ -14,10 +14,10 @@ export class Class {
     public uuid?: string;
 
 @Column()
-public moduleId?: number;
+    public moduleId?: number;
 
     @ManyToOne(type => Module, module => module.classes)
-    public module?: Module;
+public module?: Module;
 
     @ManyToOne(type => Class, class_ => class_.subClasses, { nullable: true })
     public superClass?: Class;
@@ -48,25 +48,25 @@ public moduleId?: number;
         this.module = module;
         this.name = name;
         this.methods = methods;
-	this.subClasses = subclasses;
+        this.subClasses = subclasses;
     }
 
 
-public toPojo(): ClassPojo {
-return { id:this.id,
-uuid: this.uuid,
-superClass:this.superClass ? this.superClass.toPojo() : undefined,
-implements:this.implements ? this.implements.map(i => i.toPojo()) : undefined,
-name: this.name,
-methods: this.methods? this.methods.map(m => m.toPojo()):undefined,
-astNode:this.astNode,
-superClassNode:this.superClassNode,
-implementsNode: this.implementsNode,
-}
-}
+    public toPojo(): ClassPojo {
+        return { id:this.id,
+            uuid: this.uuid,
+            superClass:this.superClass ? this.superClass.toPojo() : undefined,
+            implements:this.implements ? this.implements.map(i => i.toPojo()) : undefined,
+            name: this.name,
+            methods: this.methods? this.methods.map(m => m.toPojo()):undefined,
+            astNode:this.astNode,
+            superClassNode:this.superClassNode,
+            implementsNode: this.implementsNode,
+        }
+    }
 
-public toString(): string {
-return `<Class module=${this.module || this.moduleId} name=${this.name}/>`;
-}
+    public toString(): string {
+        return `<Class module=${this.module || this.moduleId} name=${this.name}/>`;
+    }
 
 }

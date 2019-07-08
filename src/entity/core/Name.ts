@@ -38,18 +38,18 @@ export class Name {
     public constructor() {
     }
 
-public toPojo(): NamePojo {
-return { id: this.id ,
-moduleId: this.moduleId,
-module: this.module ? this.module.toPojo() : undefined,
-name: this.name,
-nameKind: this.nameKind,
-astNode: this.astNode,
-}
-}
+    public toPojo(): NamePojo {
+        return { id: this.id ,
+            moduleId: this.moduleId,
+            module: this.module ? this.module.toPojo() : undefined,
+            name: this.name,
+            nameKind: this.nameKind,
+            astNode: this.astNode,
+        }
+    }
 
-public toString(): string {
-return `<Name module=${this.module} name=${this.name}/>`;
+    public toString(): string {
+        return `<Name module=${this.module} name=${this.name}/>`;
 
-}
+    }
 }

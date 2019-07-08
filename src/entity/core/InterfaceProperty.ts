@@ -9,13 +9,13 @@ export class InterfaceProperty {
     public id?: number;
 
 @ManyToOne(type => Interface, iface => iface.properties)
-public iface?: Interface;
+    public iface?: Interface;
 
 @Column(type => Property)
 public property?: Property;
 
 public toPojo(): InterfacePropertyPojo {
-return { id: this.id, iface: this.iface ? this.iface.toPojo() : undefined, property: this.property ? this.property.toPojo() : undefined};
+    return { id: this.id, iface: this.iface ? this.iface.toPojo() : undefined, property: this.property ? this.property.toPojo() : undefined};
 }
 
 }

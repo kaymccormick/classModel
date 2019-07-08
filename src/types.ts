@@ -9,7 +9,7 @@ export  interface GetRegistryInvocationArgs {
 
 
 export interface FactoryInterface {
-  createTSType(): EntityCore.TSType;
+    createTSType(): EntityCore.TSType;
 }
 
 export interface PojoBuilder<T> {

@@ -19,22 +19,22 @@ export class Parameter {
     public method?: Method;
 
 @Column()
-public typeId?: number;
+    public typeId?: number;
 
 @ManyToOne(type => TSType)
     @JoinColumn()
-    public type?: TSType;
+public type?: TSType;
 
-    constructor(name: string, method: Method) {
-        this.name = name;
-        this.method = method;
-    }
-
-public toPojo(): ParameterPojo {
-return { id: this.id, name: this.name, ordinal: this.ordinal, method: this.method ? this.method.toPojo() : undefined };
+constructor(name: string, method: Method) {
+    this.name = name;
+    this.method = method;
 }
 
-    public toString():string {
+public toPojo(): ParameterPojo {
+    return { id: this.id, name: this.name, ordinal: this.ordinal, method: this.method ? this.method.toPojo() : undefined };
+}
+
+public toString(): string {
     return `<Parameter method=${this.method}; name=${this.name}; type=${this.type || this.typeId}/>`;
-    }
+}
 }

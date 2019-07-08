@@ -34,19 +34,19 @@ export class Import {
         this.isNamespaceImport = isNamespaceImport;
     }
 
-public toPojo(): ImportPojo {
-return {
-id: this.id,
-module: this.module.toPojo(),
-localName:this.localName,
-sourceModuleName:this.sourceModuleName,
-exportedName:this.exportedName,
-isDefaultImport:this.isDefaultImport,
-isNamespaceImport:this.isNamespaceImport,
-}
-}
+    public toPojo(): ImportPojo {
+        return {
+            id: this.id,
+            module: this.module.toPojo(),
+            localName:this.localName,
+            sourceModuleName:this.sourceModuleName,
+            exportedName:this.exportedName,
+            isDefaultImport:this.isDefaultImport,
+            isNamespaceImport:this.isNamespaceImport,
+        }
+    }
 
-public toString(): string {
-return `<Import ${this.module.name} ${this.localName}/>`;
-}
+    public toString(): string {
+        return `<Import ${this.module.name} ${this.localName}/>`;
+    }
 }

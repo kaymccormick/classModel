@@ -21,19 +21,19 @@ export class Method {
     public astNode: any;
 
 @Column({nullable: true})
-public accessibility?: string;
+    public accessibility?: string;
 
-    public constructor(name: string, parameters: Parameter[], classProperty: Class) {
-        this.name = name;
-        this.parameters = parameters;
-        this.classProperty = classProperty;
-    }
-
-public toPojo():MethodPojo {
-return {id:this.id, name: this.name, parameters: this.parameters.map(p=>p.toPojo()),classProperty: this.classProperty.toPojo(),astNode: this.astNode, accessibility: this.accessibility};
+public constructor(name: string, parameters: Parameter[], classProperty: Class) {
+    this.name = name;
+    this.parameters = parameters;
+    this.classProperty = classProperty;
 }
 
-public toString():string {
-return `<Method class=${this.classProperty} name=${this.name}/>`;
+public toPojo(): MethodPojo {
+    return {id:this.id, name: this.name, parameters: this.parameters.map(p=>p.toPojo()),classProperty: this.classProperty.toPojo(),astNode: this.astNode, accessibility: this.accessibility};
+}
+
+public toString(): string {
+    return `<Method class=${this.classProperty} name=${this.name}/>`;
 }
 }

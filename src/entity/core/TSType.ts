@@ -29,7 +29,7 @@ export class TSType implements PojoBuilder<TSTypePojo> {
     @Column({nullable: true, name: 'origin'})
     public origin?: string;
 
-/*    @OneToOne(type => Name, { nullable: true })
+    /*    @OneToOne(type => Name, { nullable: true })
     @JoinColumn()
     public typeName?: Name;*/
 
@@ -51,25 +51,25 @@ export class TSType implements PojoBuilder<TSTypePojo> {
 
     @AfterInsert()
     afterInsert() {
-    this.logger.info('after insert', { tstype: this.toPojo() });
+        this.logger.info('after insert', { tstype: this.toPojo() });
     }
 
     constructor(private logger: Logger) {
     }
 
-public toPojo(): TSTypePojo {
-return {
-id: this.id,
-createdBy: this.createdBy,
-origin:this.origin,
-tsNodeType:this.tsNodeType,
-baseType: this.baseType,
-moduleId:this.moduleId,
-astNode:this.astNode,
-}
-}
+    public toPojo(): TSTypePojo {
+        return {
+            id: this.id,
+            createdBy: this.createdBy,
+            origin:this.origin,
+            tsNodeType:this.tsNodeType,
+            baseType: this.baseType,
+            moduleId:this.moduleId,
+            astNode:this.astNode,
+        }
+    }
 
-public toString():string {
-return `<TSType{${this.id}} module=${this.module||this.moduleId} astNode=${JSON.stringify(this.astNode)}/>`;
-}
+    public toString(): string {
+        return `<TSType{${this.id}} module=${this.module||this.moduleId} astNode=${JSON.stringify(this.astNode)}/>`;
+    }
 }

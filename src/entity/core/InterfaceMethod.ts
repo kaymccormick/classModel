@@ -21,12 +21,12 @@ export class InterfaceMethod {
     public astNode?: any;
 
 @Column({nullable: true})
-public accessibility?: string;
+    public accessibility?: string;
 
 public toPojo(): InterfaceMethodPojo {
-return {id:this.id,name:this.name,parameters:this.parameters?this.parameters.map(p=>p.toPojo()):[],accessibility:this.accessibility}
+    return {id:this.id,name:this.name,parameters:this.parameters?this.parameters.map(p=>p.toPojo()):[],accessibility:this.accessibility}
 }
 
-    public constructor() {
-    }
+public constructor() {
+}
 }
