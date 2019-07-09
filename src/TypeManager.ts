@@ -7,7 +7,7 @@ import{ FactoryInterface } from './types';
 import winston,{Logger} from 'winston';
 
 export class TypeManager {
-    private connection: Connection;
+    private connection?: Connection;
     private createdBy: string;
     private tsTypeRepository: Repository<EntityCore.TSType>;
     private logger: winston.Logger;
