@@ -7,18 +7,27 @@ import{ FactoryInterface } from './types';
 import winston,{Logger} from 'winston';
 
 export class TypeManager {
-    private connection?: Connection;
-    private createdBy: string;
+// @ts-ignore
+    private connection: Connection;
+    private createdBy?: string;
     private tsTypeRepository: Repository<EntityCore.TSType>;
     private logger: winston.Logger;
     private factory: FactoryInterface;
 
     public constructor(args: CreateTypeManagerArgs) {
+    if(args.connection === undefined) {
+    throw new Error('need connection');
+}
         this.connection = args.connection;
+
+        
         this.createdBy = args.createdBy;
-        this.logger = args.logger;
-        if(!this.logger) {
+        if(!args.logger) {
             throw new Error('need logger');
+        }
+        this.logger = args.logger;
+        if(!args.factory) {
+        throw new Error('need factory');
         }
         this.factory = args.factory;
         this.tsTypeRepository = this.connection.getRepository(EntityCore.TSType);
@@ -49,7 +58,7 @@ export class TypeManager {
             if(type) {
                 throw new Error('existing type');
             }
-        }).then(() => 
+        }).then(() =>
             this.tsTypeRepository.save(tsType).then(tsType1 => {
                 if (astNode.type === 'TSTypeReference') {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -111,7 +120,7 @@ export class TypeManager {
                 this.logger.debug(`got ${ts.length} types`);
                 if (ts.length === 0) {
                     return this.createType(type.moduleId!, copyTree(unionNode).toJS(), 'union');
-                    /*                
+                    /*
                     const newType = this.factory.createTSType();
                     newType.tsNodeType = unionNode.type;
                     newType.astNode = ;
