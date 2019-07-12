@@ -6,6 +6,7 @@ import { Module } from './Module';
 import {Logger} from "winston";
 import { PojoBuilder } from '../../types';
 import {TSTypePojo} from "../../pojo";
+import { Base } from './Base';
 
 /*
 TSExpressionWithTypeArguments | TSTypeReference | TSAnyKeyword |
@@ -19,16 +20,7 @@ TSOptionalType | TSIndexedAccessType | TSTypeOperator | TSTypeQuery |
 TSImportType | TSTypeLiteral;
 */
 @Entity()
-export class TSType implements PojoBuilder<TSTypePojo> {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column({nullable: true, name: 'createdby'})
-    public createdBy?: string;
-
-    @Column({nullable: true, name: 'origin'})
-    public origin?: string;
-
+export class TSType extends Base implements PojoBuilder<TSTypePojo> {
     /*    @OneToOne(type => Name, { nullable: true })
     @JoinColumn()
     public typeName?: Name;*/
@@ -55,6 +47,7 @@ export class TSType implements PojoBuilder<TSTypePojo> {
     }
 
     constructor(private logger: Logger) {
+    super();
     }
 
     public toPojo(): TSTypePojo {

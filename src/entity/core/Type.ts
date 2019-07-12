@@ -2,15 +2,10 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinCol
 import {List} from "immutable";
 import { TypeEnum } from './TypeEnum';
 import { Name } from './Name';
+import { Base } from './Base';
 
 @Entity()
-export class Type {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column()
-    public name?: string;
-
+export class Type extends Base {
     @OneToOne(type => Name)
     @JoinColumn()
     public typeName?: Name;
@@ -18,6 +13,4 @@ export class Type {
     @Column({name: 'basetype', nullable: true})
     public baseType?: TypeEnum;
 
-    constructor() {
-    }
 }

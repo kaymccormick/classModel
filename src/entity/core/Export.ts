@@ -2,14 +2,12 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne} from "
 import {Project} from "./Project";
 import {Module} from "./Module";
 import {ExportPojo} from '../../pojo';
+import { Base } from './Base';
 
 @Entity()
-export class Export {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column({name:"localname", nullable: true})
-    public localName?: string;
+export class Export extends Base {
+    @Column({nullable: true})
+    public name?: string;
 
     @Column({name: "exportedname", nullable: true})
     public exportedName?: string;
@@ -21,7 +19,8 @@ export class Export {
     isDefaultExport: boolean = false;
 
     public constructor(localName: string | undefined, exportedName: string | undefined, module: Module) {
-        this.localName = localName;
+    super();
+        this.name = localName;
         this.exportedName = exportedName;
         this.module = module;
     }
@@ -29,7 +28,7 @@ export class Export {
     public toPojo(): ExportPojo {
         return {
             id:this.id,
-            localName:this.localName,
+            name:this.name,
             exportedName:this.exportedName,
             module:this.module,
             isDefaultExport:this.isDefaultExport,

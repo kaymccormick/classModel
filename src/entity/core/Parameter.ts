@@ -3,15 +3,10 @@ import {List} from "immutable";
 import {Method} from "./Method";
 import { TSType } from './TSType';
 import {ParameterPojo}from '../../pojo';
+import { Base } from './Base';
 
 @Entity()
-export class Parameter {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column()
-    public name?: string;
-
+export class Parameter extends Base {
     @Column()
     public ordinal?: number;
 
@@ -26,6 +21,7 @@ export class Parameter {
 public type?: TSType;
 
 constructor(name: string, method: Method) {
+super();
     this.name = name;
     this.method = method;
 }

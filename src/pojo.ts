@@ -1,156 +1,106 @@
 import {TypeEnum} from "./entity/core";
 import {TypePojo} from "./types";
 
-export interface NamePojo {
+export interface BasePojo {
     id?: number;
-
-    moduleId?: number;
-
-    module?: ModulePojo;
-
     name?: string;
+    uuid?: string;
+    origin?: string;
+    createdBy?: string;
+}
 
+export interface NamePojo extends BasePojo {
+    moduleId?: number;
+    module?: ModulePojo;
     nameKind?: string;
-
     astNode: any;
 }
 
-export interface ClassPojo {
-    id?: number;
-    uuid?: string;
+export interface ClassPojo extends BasePojo {
     moduleId?: number;
     module?: ModulePojo;
     superClass?: ClassPojo;
     subClasses?: ClassPojo[];
     implements?: InterfacePojo[];
-    name?: string;
     methods?: MethodPojo[];
     astNode?: any;
     superClassNode?: any;
     implementsNode?: any;
 }
 
-export interface ExportPojo {
-    id?: number;
-
-    localName?: string;
-
+export interface ExportPojo  extends BasePojo {
     exportedName?: string;
-
     module?: ModulePojo;
-
     isDefaultExport?: boolean;
 }
 
-export interface ImportPojo {
-    id?: number;
+export interface ImportPojo  extends BasePojo {
     module?: ModulePojo;
-    localName?: string;
     sourceModuleName?: string;
     exportedName?: string;
     isDefaultImport?: boolean;
     isNamespaceImport?: boolean;
 }
 
-export interface InterfacePojo {
-    id?: number;
-
+export interface InterfacePojo  extends BasePojo {
     module?: ModulePojo;
-
     extends?: InterfacePojo;
-
     subinterfaces?: InterfacePojo[];
-
     methods?: InterfaceMethodPojo[];
-
-    name?: string;
-
     properties?: InterfacePropertyPojo[];
-
     astNode: any;
-
 }
 
 export interface InterfacePropertyPojo {
 }
 
-export interface ModulePojo {
-    id?: number;
-
-    name?: string;
-
+export interface ModulePojo extends BasePojo {
     projectId?: number;
-
     project?: ProjectPojo;
-
     classes?: ClassPojo[];
-
     defaultExport?: ExportPojo;
-
     exports?: ExportPojo[];
-
     imports?: ImportPojo[];
-
     names?: NamePojo[];
-
     types?: TSTypePojo[];
 }
 
-export interface ProjectPojo {
-    id?: number;
-
-    name?: string;
-
+export interface ProjectPojo extends BasePojo {
     modules?: ModulePojo[];
 }
 
-export interface TSTypePojo {
-    id?: number;
-    createdBy?: string;
-    origin?: string;
+export interface TSTypePojo extends BasePojo {
     tsNodeType?: string;
     baseType?: TypeEnum;
     moduleId?: number;
     astNode?: any;
 }
 
-export interface ParameterPojo {
-    id?: number;
-    name?: string;
+export interface ParameterPojo extends BasePojo {
     ordinal?: number;
     type?: TSTypePojo;
     method?: MethodPojo;
 }
 
-export interface MethodPojo {
-    id?: number;
-    name: string;
+export interface MethodPojo extends BasePojo {
     classProperty: ClassPojo;
     parameters: ParameterPojo[];
     astNode?: any;
     accessibility?: string;
 }
-export interface InterfaceMethodPojo {
-    id?: number;
-
-    name?: string;
-
+export interface InterfaceMethodPojo extends BasePojo {
     parameters?: ParameterPojo[];
     interface_?: InterfacePojo;
     astNode?: any;
     accessibility?: string;
 }
-export interface InterfacePropertyPojo {
-    id?: number;
+export interface InterfacePropertyPojo extends BasePojo {
     iface?: InterfacePojo;
     property?: PropertyPojo;
 }
 
-export interface PropertyPojo {
-    name?: string;
-
+export interface PropertyPojo  {
     computed?: boolean;
-    
     readonly?: boolean;
     optional?: boolean;
     hasInitializer?: boolean;

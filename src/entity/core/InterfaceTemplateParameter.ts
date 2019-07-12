@@ -2,15 +2,10 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinCol
 import {List} from "immutable";
 import {Method} from "./Method";
 import { Type } from './Type';
+import { Base } from './Base';
 
 @Entity()
-export class InterfaceTemplateParameter {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column()
-    public name?: string;
-
+export class InterfaceTemplateParameter extends Base {
     @Column()
     public ordinal?: number;
 
@@ -22,6 +17,7 @@ export class InterfaceTemplateParameter {
     public type?: Type;
 
     constructor(name: string, method: Method) {
+    super();
         this.name = name;
         this.method = method;
     }

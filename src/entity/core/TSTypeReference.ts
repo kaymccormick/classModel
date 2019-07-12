@@ -3,9 +3,10 @@ import {List} from "immutable";
 import { Name } from './Name';
 import { TSType } from './TSType';
 import { Module } from './Module';
+import { Base } from './Base';
 
 @Entity()
-export class TSTypeReference {
+export class TSTypeReference extends Base {
     @PrimaryColumn()
     public id?: number;
 
@@ -14,6 +15,7 @@ export class TSTypeReference {
     public typeName?: Name;
 
     constructor(id: number) {
+    super();
         this.id = id;
     }
 }

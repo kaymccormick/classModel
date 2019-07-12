@@ -3,21 +3,15 @@ import {Module} from './Module';
 import {Method} from "./Method";
 import {Interface} from './Interface';
 import {ClassPojo} from'../../pojo';
+import { Base } from './Base';
 
 @Entity()
-export class Class {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
+export class Class extends Base {
     @Column()
-    @Generated('uuid')
-    public uuid?: string;
-
-@Column()
     public moduleId?: number;
 
     @ManyToOne(type => Module, module => module.classes)
-public module?: Module;
+    public module?: Module;
 
     @ManyToOne(type => Class, class_ => class_.subClasses, { nullable: true })
     public superClass?: Class;
@@ -29,8 +23,6 @@ public module?: Module;
     @JoinTable()
     public implements?: Interface[]
 
-    @Column()
-    public name?: string;
 
     @OneToMany(type => Method, method => method.classProperty)
     public methods?: Method[];
@@ -45,6 +37,7 @@ public module?: Module;
     public implementsNode?: any;
 
     public constructor(module: Module, name: string, methods: Method[], subclasses: Class[]) {
+    super();
         this.module = module;
         this.name = name;
         this.methods = methods;

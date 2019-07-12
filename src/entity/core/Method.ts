@@ -2,15 +2,10 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToM
 import {Parameter} from "./Parameter";
 import {Class} from "./Class";
 import {MethodPojo} from '../../pojo';
+import { Base } from './Base';
 
 @Entity()
-export class Method {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column()
-    public name: string;
-
+export class Method extends Base {
     @OneToMany(type => Parameter, parameter => parameter.method)
     public parameters: Parameter[];
 
@@ -24,6 +19,7 @@ export class Method {
     public accessibility?: string;
 
 public constructor(name: string, parameters: Parameter[], classProperty: Class) {
+super();
     this.name = name;
     this.parameters = parameters;
     this.classProperty = classProperty;

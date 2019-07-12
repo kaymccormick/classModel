@@ -15,16 +15,11 @@ import {Export} from "./Export";
 import {Import} from "./Import";
 import {Name} from "./Name";
 import {ModulePojo} from '../../pojo';
+import { Base } from './Base';
 
 
-@Entity({name: "modules"})
-export class Module {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column()
-    public name?: string;
-
+@Entity()
+export class Module extends Base {
 @Column()
     public projectId?: number;
 
@@ -52,6 +47,8 @@ public project?: Project;
 
     public constructor(moduleName: string, project: Project, classes: Class[],
         exports: Export[], imports: Import[],names: Name[],types: TSType[]) {
+    super();
+        
         this.name = moduleName;
         this.project = project;
         this.classes = classes;

@@ -3,6 +3,7 @@ import {List} from "immutable";
 import { TypeEnum } from './TypeEnum';
 import { Name } from './Name';
 import { Module } from './Module';
+import { Base } from './Base';
 
 /*
 TSExpressionWithTypeArguments | TSTypeReference | TSAnyKeyword |
@@ -16,13 +17,7 @@ TSOptionalType | TSIndexedAccessType | TSTypeOperator | TSTypeQuery |
 TSImportType | TSTypeLiteral;
 */
 @Entity()
-export class TSTypeAlias {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column()
-    public name?: string;
-
+export class TSTypeAlias extends Base {
     @Column()
     public declare?: boolean;
 
@@ -37,6 +32,4 @@ export class TSTypeAlias {
     @JoinColumn()
     public module?: Module;
 
-    constructor() {
-    }
 }

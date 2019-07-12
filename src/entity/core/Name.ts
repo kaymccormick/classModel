@@ -14,20 +14,15 @@ import {Export} from "./Export";
 import {Import} from "./Import";
 import {Module} from "./Module";
 import {NamePojo} from '../../pojo';
+import { Base } from './Base';
 
 @Entity()
-export class Name {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
+export class Name extends Base {
     @Column()
     public moduleId?: number;
 
     @ManyToOne(type => Module, module => module.names)
     public module?: Module;
-
-    @Column()
-    public name?: string;
 
     @Column({name: 'namekind', nullable:true})
     public nameKind?: string;
@@ -35,8 +30,6 @@ export class Name {
     @Column({type: 'jsonb', name: 'astnode', nullable: true})
     public astNode: any;
 
-    public constructor() {
-    }
 
     public toPojo(): NamePojo {
         return { id: this.id ,

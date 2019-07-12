@@ -4,9 +4,6 @@ import {PropertyPojo} from '../../pojo';
 
 export class Property {
     @Column()
-    public name?: string;
-
-    @Column()
     public computed?: boolean;
     
     @Column()
@@ -27,7 +24,6 @@ export class Property {
 
     public toPojo(): PropertyPojo {
         return {
-            name: this.name,
             computed: this.computed,
             readonly:this.readonly,
             optional:this.optional,

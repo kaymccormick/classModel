@@ -1,15 +1,10 @@
 import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinColumn} from "typeorm";
 import {List} from "immutable";
 import { Type } from './Type';
+import { Base } from './Base';
 
 @Entity()
-export class TypeParameter {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column()
-    public name: string;
-
+export class TypeParameter extends Base {
     @Column()
     public ordinal?: number;
 
@@ -18,6 +13,7 @@ export class TypeParameter {
     public type?: Type;
 
     constructor(name: string) {
+    super();
         this.name = name;
     }
 }

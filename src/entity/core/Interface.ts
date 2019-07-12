@@ -4,12 +4,10 @@ import {Property} from './Property';
 import {InterfaceMethod} from "./InterfaceMethod";
 import {InterfaceProperty} from "./InterfaceProperty";
 import {InterfacePojo} from '../../pojo';
+import { Base } from './Base';
 
 @Entity()
-export class Interface {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
+export class Interface extends Base {
     @ManyToOne(type => Module, module => module.classes)
     public module?: Module;
 
@@ -21,9 +19,6 @@ export class Interface {
 
     @OneToMany(type => InterfaceMethod, m => m.interface_)
     public methods?: InterfaceMethod[];
-
-    @Column()
-    public name?: string;
 
     @OneToMany(type => InterfaceProperty, prop => prop.iface)
     public properties?: InterfaceProperty[];
@@ -43,6 +38,5 @@ export class Interface {
         }
     }
 
-    public constructor() {
-    }
+
 }

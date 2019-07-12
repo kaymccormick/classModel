@@ -2,18 +2,12 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne} from "
 import {Project} from "./Project";
 import {Module} from "./Module";
 import { ImportPojo } from '../../pojo';
+import { Base } from './Base';
 
-@Entity({name: "imports"})
-export class Import {
-    @PrimaryGeneratedColumn()
-    // @ts-ignore
-    public id: number;
-
+@Entity()
+export class Import extends Base {
     @ManyToOne(type => Module, module => module.imports)
     module: Module;
-
-    @Column()
-    public localName: string;
 
     @Column({name: "sourcemodulename"})
     public sourceModuleName: string;
@@ -25,9 +19,10 @@ export class Import {
     @Column()
     public isNamespaceImport: boolean;
 
-    public constructor(module: Module, localName: string, sourceModuleName: string, exportedName?: string, isDefaultImport: boolean = false, isNamespaceImport: boolean = false) {
+    public constructor(module: Module,  name: string, sourceModuleName: string, exportedName?: string, isDefaultImport: boolean = false, isNamespaceImport: boolean = false) {
+    super();
         this.module = module;
-        this.localName = localName;
+        this.name = name;
         this.sourceModuleName = sourceModuleName;
         this.exportedName = exportedName;
         this.isDefaultImport = isDefaultImport;
@@ -38,7 +33,7 @@ export class Import {
         return {
             id: this.id,
             module: this.module.toPojo(),
-            localName:this.localName,
+            name:this.name,
             sourceModuleName:this.sourceModuleName,
             exportedName:this.exportedName,
             isDefaultImport:this.isDefaultImport,
@@ -47,6 +42,6 @@ export class Import {
     }
 
     public toString(): string {
-        return `<Import ${this.module.name} ${this.localName}/>`;
+        return `<Import ${this.module.name} ${this.name}/>`;
     }
 }

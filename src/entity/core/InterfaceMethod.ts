@@ -2,15 +2,10 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToM
 import {Parameter} from "./Parameter";
 import {Interface} from "./Interface";
 import{InterfaceMethodPojo} from '../../pojo';
+import { Base } from './Base';
 
 @Entity()
-export class InterfaceMethod {
-    @PrimaryGeneratedColumn()
-    public id?: number;
-
-    @Column()
-    public name?: string;
-
+export class InterfaceMethod extends Base {
     @OneToMany(type => Parameter, parameter => parameter.method)
     public parameters?: Parameter[];
 
@@ -27,6 +22,4 @@ public toPojo(): InterfaceMethodPojo {
     return {id:this.id,name:this.name,parameters:this.parameters?this.parameters.map(p=>p.toPojo()):[],accessibility:this.accessibility}
 }
 
-public constructor() {
-}
 }
