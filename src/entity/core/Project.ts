@@ -21,7 +21,11 @@ export class Project extends Base implements PojoBuilder<ProjectPojo> {
     }
 
     public toPojo(args?: PojoBuildArguments ): ProjectPojo{
-        return {id:this.id, name:this.name,modules:this.modules?this.modules.map(m=>m.toPojo()):[]};
+        return { id:this.id,
+        name:this.name,
+        modules:this.modules?this.modules.map(m=>m.toPojo()):[],
+        path: this.path,
+        };
     }
 
 

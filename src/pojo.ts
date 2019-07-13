@@ -28,7 +28,7 @@ export interface ClassPojo extends BasePojo {
     implementsNode?: any;
 }
 
-export interface ExportPojo  extends BasePojo {
+export interface ExportPojo extends BasePojo {
     exportedName?: string;
     module?: ModulePojo;
     isDefaultExport?: boolean;
@@ -55,6 +55,7 @@ export interface InterfacePojo  extends BasePojo {
 
 export interface ModulePojo extends BasePojo {
     projectId?: number;
+    uuid?: string;
     project?: ProjectPojo;
     classes?: ClassPojo[];
     defaultExport?: ExportPojo;
@@ -66,6 +67,7 @@ export interface ModulePojo extends BasePojo {
 
 export interface ProjectPojo extends BasePojo {
     modules?: ModulePojo[];
+    path?: string;
 }
 
 export interface TSTypePojo extends BasePojo {

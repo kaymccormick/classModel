@@ -28,7 +28,7 @@ export class Export extends Base implements PojoBuilder<ExportPojo>{
             id:this.id,
             name:this.name,
             exportedName:this.exportedName,
-            module:this.module.toPojo(args),
+            module:this.module ? this.module.toPojo(args): undefined,
             isDefaultExport:this.isDefaultExport,
         }
     }

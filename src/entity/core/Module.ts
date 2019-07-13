@@ -64,6 +64,7 @@ export class Module extends Base implements PojoBuilder<ModulePojo> {
             id: this.id,
             name: this.name,
             projectId: this.projectId,
+            uuid: this.uuid,
             classes: this.classes ? this.classes.map(c => c.toPojo(args)) : undefined,
             exports: this.exports ? this.exports.map(e => e.toPojo(args)) : undefined,
             imports: this.imports ? this.imports.map(i => i.toPojo(args)) : undefined,
