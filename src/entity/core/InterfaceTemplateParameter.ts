@@ -17,7 +17,7 @@ export class InterfaceTemplateParameter extends Base {
     public type?: Type;
 
     constructor(name: string, method: Method) {
-    super();
+        super();
         this.name = name;
         this.method = method;
     }

@@ -8,7 +8,7 @@ export class Base {
     @Generated('uuid')
     public uuid?: string;
 
-    @Column()
+    @Column({nullable: true})
     public name?: string;
 
     @Column({nullable: true, name: 'createdby'})

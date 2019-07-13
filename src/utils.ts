@@ -10,7 +10,7 @@ export function copyTree(node: namedTypes.Node): Map<string, ValueKind> {
     eachField(node, (name, value): void => {
         if (Array.isArray(value)) {
             if(typeof value[0]  === 'string') {//instanceof namedTypes.Node) {
-                throw new Error('');
+                throw new Error('unexpected string type');
             }
             if(value.length >0) {
                 if(value[0].constructor && value[0].constructor.name === "Node") {

@@ -4,8 +4,7 @@ import { TypeEnum } from './TypeEnum';
 import { Name } from './Name';
 import { Module } from './Module';
 import {Logger} from "winston";
-import { PojoBuilder } from '../../types';
-import {TSTypePojo} from "../../pojo";
+import { PojoBuilder } from '../../types';import {TSTypePojo} from "../../pojo";
 import { Base } from './Base';
 
 /*
@@ -47,7 +46,7 @@ export class TSType extends Base implements PojoBuilder<TSTypePojo> {
     }
 
     constructor(private logger: Logger) {
-    super();
+        super();
     }
 
     public toPojo(): TSTypePojo {

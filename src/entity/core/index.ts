@@ -7,6 +7,7 @@ export { TypeEnum } from './TypeEnum';
 export { Property } from './Property';
 export { Class } from './Class';
 export { Interface } from './Interface';
+export { LogEntry } from './LogEntry';
 export { Export } from './Export';
 export { Import } from './Import';
 export { Name } from './Name';

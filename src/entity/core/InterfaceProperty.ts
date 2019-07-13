@@ -12,8 +12,8 @@ export class InterfaceProperty extends Base {
     @Column(type => Property)
     public property?: Property;
 
-public toPojo(): InterfacePropertyPojo {
-    return { id: this.id, iface: this.iface ? this.iface.toPojo() : undefined, property: this.property ? this.property.toPojo() : undefined};
-}
+    public toPojo(): InterfacePropertyPojo {
+        return { id: this.id, iface: this.iface ? this.iface.toPojo() : undefined, property: this.property ? this.property.toPojo() : undefined};
+    }
 
 }

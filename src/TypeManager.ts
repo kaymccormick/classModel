@@ -15,9 +15,9 @@ export class TypeManager {
     private factory: FactoryInterface;
 
     public constructor(args: CreateTypeManagerArgs) {
-    if(args.connection === undefined) {
-    throw new Error('need connection');
-}
+        if(args.connection === undefined) {
+            throw new Error('need connection');
+        }
         this.connection = args.connection;
 
         
@@ -27,7 +27,7 @@ export class TypeManager {
         }
         this.logger = args.logger;
         if(!args.factory) {
-        throw new Error('need factory');
+            throw new Error('need factory');
         }
         this.factory = args.factory;
         this.tsTypeRepository = this.connection.getRepository(EntityCore.TSType);
@@ -64,8 +64,12 @@ export class TypeManager {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
                     const ref = new EntityCore.TSTypeReference(tsType1.id!);
                     const nameRepo = this.connection.getRepository(EntityCore.Name);
-                    if(astNode.typeName.type !== 'Identifier') {
-                        throw new Error(astNode.typeName.type);
+                    if(astNode.typeName.type === 'Identifier' || astNode.typeName.type === 'TSQualifiedName') {
+                        throw new Error(`unrecognized node type ${astNode.typeName.type}`);
+                    }
+                    if(astNode.typeName.type === 'TSQualifiedName') {
+                        this.logger.warn(astNode);
+                        throw new Error('cannot yet handle TSQualifiedName');
                     }
                     const name = astNode.typeName.name;
                     return nameRepo.find({

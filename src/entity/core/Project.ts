@@ -6,12 +6,16 @@ import { Base } from './Base';
 
 @Entity()
 export class Project extends Base {
+    @Column()
+    public path?: string;
+
     @OneToMany(type => Module, module => module.project)
     public modules?: Module[];
 
-    public constructor(name: string, modules: Module[]) {
-    super();
+    public constructor(name: string, path?: string, modules?: Module[]) {
+        super();
         this.name = name;
+        this.path = path;
         this.modules = modules;
     }
 

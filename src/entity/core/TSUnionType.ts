@@ -19,7 +19,7 @@ export class TSUnionType extends Base {
     public astNode?: any;
 
     constructor(id: number) {
-    super();
+        super();
         this.id = id;
     }
 }

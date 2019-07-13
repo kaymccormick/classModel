@@ -35,6 +35,7 @@ export interface ExportPojo  extends BasePojo {
 }
 
 export interface ImportPojo  extends BasePojo {
+    moduleId?: number;
     module?: ModulePojo;
     sourceModuleName?: string;
     exportedName?: string;
@@ -83,8 +84,8 @@ export interface ParameterPojo extends BasePojo {
 }
 
 export interface MethodPojo extends BasePojo {
-    classProperty: ClassPojo;
-    parameters: ParameterPojo[];
+    classProperty?: ClassPojo;
+    parameters?: ParameterPojo[];
     astNode?: any;
     accessibility?: string;
 }

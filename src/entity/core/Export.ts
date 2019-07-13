@@ -6,9 +6,6 @@ import { Base } from './Base';
 
 @Entity()
 export class Export extends Base {
-    @Column({nullable: true})
-    public name?: string;
-
     @Column({name: "exportedname", nullable: true})
     public exportedName?: string;
 
@@ -19,7 +16,7 @@ export class Export extends Base {
     isDefaultExport: boolean = false;
 
     public constructor(localName: string | undefined, exportedName: string | undefined, module: Module) {
-    super();
+        super();
         this.name = localName;
         this.exportedName = exportedName;
         this.module = module;

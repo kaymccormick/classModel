@@ -6,21 +6,24 @@ import { Base } from './Base';
 
 @Entity()
 export class Import extends Base {
+@Column()
+    moduleId?: number;
+
     @ManyToOne(type => Module, module => module.imports)
-    module: Module;
+module?: Module;
 
     @Column({name: "sourcemodulename"})
-    public sourceModuleName: string;
+    public sourceModuleName?: string;
 
     @Column({ nullable: true })
     public exportedName?: string;
     @Column()
-    public isDefaultImport: boolean;
+    public isDefaultImport?: boolean;
     @Column()
-    public isNamespaceImport: boolean;
+    public isNamespaceImport?: boolean;
 
     public constructor(module: Module,  name: string, sourceModuleName: string, exportedName?: string, isDefaultImport: boolean = false, isNamespaceImport: boolean = false) {
-    super();
+        super();
         this.module = module;
         this.name = name;
         this.sourceModuleName = sourceModuleName;
@@ -32,7 +35,9 @@ export class Import extends Base {
     public toPojo(): ImportPojo {
         return {
             id: this.id,
-            module: this.module.toPojo(),
+            uuid:this.uuid,
+            module: this.module ? this.module.toPojo() : undefined,
+            moduleId: this.moduleId,
             name:this.name,
             sourceModuleName:this.sourceModuleName,
             exportedName:this.exportedName,
@@ -42,6 +47,6 @@ export class Import extends Base {
     }
 
     public toString(): string {
-        return `<Import ${this.module.name} ${this.name}/>`;
+        return `<Import ${this.module && this.module.name} ${this.name}/>`;
     }
 }

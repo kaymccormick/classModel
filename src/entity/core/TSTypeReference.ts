@@ -15,7 +15,7 @@ export class TSTypeReference extends Base {
     public typeName?: Name;
 
     constructor(id: number) {
-    super();
+        super();
         this.id = id;
     }
 }

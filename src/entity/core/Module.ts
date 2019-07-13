@@ -16,14 +16,15 @@ import {Import} from "./Import";
 import {Name} from "./Name";
 import {ModulePojo} from '../../pojo';
 import { Base } from './Base';
-
+import { PojoBuilder } from '../../types';
 
 @Entity()
-export class Module extends Base {
+export class Module extends Base  implements PojoBuilder<ModulePojo> {
 @Column()
     public projectId?: number;
 
     @ManyToOne(type => Project, project => project.modules)
+    @JoinColumn()
 public project?: Project;
 
     @OneToMany(type => Class, class_ => class_.module)
@@ -47,7 +48,7 @@ public project?: Project;
 
     public constructor(moduleName: string, project: Project, classes: Class[],
         exports: Export[], imports: Import[],names: Name[],types: TSType[]) {
-    super();
+        super();
         
         this.name = moduleName;
         this.project = project;
@@ -58,7 +59,7 @@ public project?: Project;
         this.types = types;
     }
 
-    public toPojo(): ModulePojo {
+    public toPojo(args?: { minimal: boolean }): ModulePojo {
         return { id: this.id,
             name:this.name,
             projectId:this.projectId,

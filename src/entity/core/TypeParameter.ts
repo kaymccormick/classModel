@@ -13,7 +13,7 @@ export class TypeParameter extends Base {
     public type?: Type;
 
     constructor(name: string) {
-    super();
+        super();
         this.name = name;
     }
 }

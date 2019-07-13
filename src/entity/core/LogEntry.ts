@@ -7,8 +7,11 @@ export class LogEntry extends UniversalBase {
   @Column()
     public componentId?: number;
 
-  @ManyToOne(type => Component)
+  /*  @ManyToOne(type => Component)
   public component?: Component;
+*/
+  @Column({type: 'jsonb'})
+  public meta?: any;
 
   public message?: string;
 }

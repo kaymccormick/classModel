@@ -21,7 +21,7 @@ export class Parameter extends Base {
 public type?: TSType;
 
 constructor(name: string, method: Method) {
-super();
+    super();
     this.name = name;
     this.method = method;
 }

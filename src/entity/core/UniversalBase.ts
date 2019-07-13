@@ -15,8 +15,11 @@ export class UniversalBase {
     @Column({nullable: true})
     public displayName?: string;
 
-    @ManyToOne(type => User)
-    public owner?: User;
+    /*    @ManyToOne(type => User)
+    public owner?: User;*/
+
+    @Column({nullable: true})
+    public ownerId?: number;
 
     @Column({type: 'bigint'})
     public flags?: number;
