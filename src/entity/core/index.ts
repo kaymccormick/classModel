@@ -4,7 +4,6 @@ export { InterfaceProperty } from './InterfaceProperty';
 export { Type } from './Type';
 export { TSType } from './TSType';
 export { TypeEnum } from './TypeEnum';
-export { Property } from './Property';
 export { Class } from './Class';
 export { Interface } from './Interface';
 export { LogEntry } from './LogEntry';

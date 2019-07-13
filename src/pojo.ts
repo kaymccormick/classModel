@@ -52,8 +52,6 @@ export interface InterfacePojo  extends BasePojo {
     astNode: any;
 }
 
-export interface InterfacePropertyPojo {
-}
 
 export interface ModulePojo extends BasePojo {
     projectId?: number;
@@ -97,10 +95,6 @@ export interface InterfaceMethodPojo extends BasePojo {
 }
 export interface InterfacePropertyPojo extends BasePojo {
     iface?: InterfacePojo;
-    property?: PropertyPojo;
-}
-
-export interface PropertyPojo  {
     computed?: boolean;
     readonly?: boolean;
     optional?: boolean;

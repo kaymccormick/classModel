@@ -1,19 +1,43 @@
 import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany,ManyToMany,JoinColumn} from "typeorm";
 import {Interface} from './Interface';
-import {Property} from './Property';
 import {InterfacePropertyPojo} from '../../pojo';
+import {TSType} from './TSType';
 import { Base } from './Base';
+import {PojoBuildArguments, PojoBuilder} from "../../types";
 
 @Entity()
-export class InterfaceProperty extends Base {
+export class InterfaceProperty extends Base implements PojoBuilder<InterfacePropertyPojo> {
     @ManyToOne(type => Interface, iface => iface.properties)
     public iface?: Interface;
 
-    @Column(type => Property)
-    public property?: Property;
+    @Column()
+    public computed?: boolean;
 
-    public toPojo(): InterfacePropertyPojo {
-        return { id: this.id, iface: this.iface ? this.iface.toPojo() : undefined, property: this.property ? this.property.toPojo() : undefined};
-    }
+    @Column()
+    public readonly?: boolean;
 
+    @Column()
+    public optional?: boolean;
+
+    @Column()
+    public hasInitializer?: boolean;
+
+    @ManyToOne(type => TSType)
+    @JoinColumn()
+    public type?: TSType;
+
+    @Column({name: "astnode", type: "jsonb", nullable: true})
+    public astNode?: any;
+
+    public toPojo(args?: PojoBuildArguments): InterfacePropertyPojo {
+        return { id: this.id,
+        iface: this.iface ? this.iface.toPojo() : undefined,
+            computed: this.computed,
+            readonly:this.readonly,
+            optional:this.optional,
+            hasInitializer:this.hasInitializer,
+            type:this.type?this.type.toPojo():undefined,
+            astNode:this.astNode,
+            };
+}
 }

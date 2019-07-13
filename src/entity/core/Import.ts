@@ -3,9 +3,10 @@ import {Project} from "./Project";
 import {Module} from "./Module";
 import { ImportPojo } from '../../pojo';
 import { Base } from './Base';
+import {PojoBuildArguments, PojoBuilder} from "../../types";
 
 @Entity()
-export class Import extends Base {
+export class Import extends Base implements PojoBuilder<ImportPojo> {
 @Column()
     moduleId?: number;
 
@@ -32,7 +33,7 @@ module?: Module;
         this.isNamespaceImport = isNamespaceImport;
     }
 
-    public toPojo(): ImportPojo {
+    public toPojo(args?: PojoBuildArguments): ImportPojo {
         return {
             id: this.id,
             uuid:this.uuid,

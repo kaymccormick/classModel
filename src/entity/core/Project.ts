@@ -2,10 +2,11 @@ import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, OneToMany} from "
 import {Module} from "./Module";
 import{ProjectPojo} from '../../pojo';
 import { Base } from './Base';
+import {PojoBuildArguments, PojoBuilder} from "../../types";
 
 
 @Entity()
-export class Project extends Base {
+export class Project extends Base implements PojoBuilder<ProjectPojo> {
     @Column()
     public path?: string;
 
@@ -19,7 +20,7 @@ export class Project extends Base {
         this.modules = modules;
     }
 
-    public toPojo(): ProjectPojo{
+    public toPojo(args?: PojoBuildArguments ): ProjectPojo{
         return {id:this.id, name:this.name,modules:this.modules?this.modules.map(m=>m.toPojo()):[]};
     }
 

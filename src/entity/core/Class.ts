@@ -3,7 +3,7 @@ import {Module} from './Module';
 import {Method} from "./Method";
 import {Interface} from './Interface';
 import {ClassPojo} from'../../pojo';
-import { PojoBuilder } from '../../types';
+import {PojoBuildArguments, PojoBuilder} from '../../types';
 import { Base } from './Base';
 
 @Entity()
@@ -47,7 +47,7 @@ export class Class extends Base implements PojoBuilder<ClassPojo> {
     }
 
 
-    public toPojo(args?: { minimal: boolean }): ClassPojo {
+    public toPojo(args?: PojoBuildArguments): ClassPojo {
         const minimal = args && args.minimal;
         return { id:this.id,
             module: this.module ? this.module.toPojo(args) : undefined,

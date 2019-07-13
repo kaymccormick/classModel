@@ -3,9 +3,10 @@ import {Project} from "./Project";
 import {Module} from "./Module";
 import {ExportPojo} from '../../pojo';
 import { Base } from './Base';
+import {PojoBuildArguments, PojoBuilder} from "../../types";
 
 @Entity()
-export class Export extends Base {
+export class Export extends Base implements PojoBuilder<ExportPojo>{
     @Column({name: "exportedname", nullable: true})
     public exportedName?: string;
 
@@ -22,12 +23,12 @@ export class Export extends Base {
         this.module = module;
     }
 
-    public toPojo(): ExportPojo {
+    public toPojo(args?: PojoBuildArguments): ExportPojo {
         return {
             id:this.id,
             name:this.name,
             exportedName:this.exportedName,
-            module:this.module,
+            module:this.module.toPojo(args),
             isDefaultExport:this.isDefaultExport,
         }
     }

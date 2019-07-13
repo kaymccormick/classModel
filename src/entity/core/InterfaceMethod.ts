@@ -3,9 +3,10 @@ import {Parameter} from "./Parameter";
 import {Interface} from "./Interface";
 import{InterfaceMethodPojo} from '../../pojo';
 import { Base } from './Base';
+import {PojoBuildArguments, PojoBuilder} from "../../types";
 
 @Entity()
-export class InterfaceMethod extends Base {
+export class InterfaceMethod extends Base implements PojoBuilder<InterfaceMethodPojo> {
     @OneToMany(type => Parameter, parameter => parameter.method)
     public parameters?: Parameter[];
 
@@ -18,7 +19,7 @@ export class InterfaceMethod extends Base {
 @Column({nullable: true})
     public accessibility?: string;
 
-public toPojo(): InterfaceMethodPojo {
+public toPojo(args?: PojoBuildArguments): InterfaceMethodPojo {
     return {id:this.id,name:this.name,parameters:this.parameters?this.parameters.map(p=>p.toPojo()):[],accessibility:this.accessibility}
 }
 

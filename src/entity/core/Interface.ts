@@ -1,13 +1,13 @@
 import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany,ManyToMany,JoinColumn} from "typeorm";
 import {Module} from './Module';
-import {Property} from './Property';
 import {InterfaceMethod} from "./InterfaceMethod";
 import {InterfaceProperty} from "./InterfaceProperty";
 import {InterfacePojo} from '../../pojo';
 import { Base } from './Base';
+import {PojoBuildArguments, PojoBuilder} from "../../types";
 
 @Entity()
-export class Interface extends Base {
+export class Interface extends Base implements PojoBuilder<InterfacePojo> {
     @ManyToOne(type => Module, module => module.classes)
     public module?: Module;
 
@@ -22,11 +22,11 @@ export class Interface extends Base {
 
     @OneToMany(type => InterfaceProperty, prop => prop.iface)
     public properties?: InterfaceProperty[];
-    
+
     @Column({name: "astnode", type: "jsonb", nullable: true})
     public astNode: any;
 
-    public toPojo(): InterfacePojo {
+    public toPojo(args?: PojoBuildArguments): InterfacePojo {
         return {id:this.id,
             module: this.module ?this.module.toPojo():undefined,
             extends: this.extends ?this.extends.toPojo():undefined,

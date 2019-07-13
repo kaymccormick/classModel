@@ -15,17 +15,17 @@ import {Export} from "./Export";
 import {Import} from "./Import";
 import {Name} from "./Name";
 import {ModulePojo} from '../../pojo';
-import { Base } from './Base';
-import { PojoBuilder } from '../../types';
+import {Base} from './Base';
+import {PojoBuildArguments, PojoBuilder} from '../../types';
 
 @Entity()
-export class Module extends Base  implements PojoBuilder<ModulePojo> {
-@Column()
+export class Module extends Base implements PojoBuilder<ModulePojo> {
+    @Column()
     public projectId?: number;
 
     @ManyToOne(type => Project, project => project.modules)
     @JoinColumn()
-public project?: Project;
+    public project?: Project;
 
     @OneToMany(type => Class, class_ => class_.module)
     public classes?: Class[];
@@ -47,27 +47,28 @@ public project?: Project;
     public types?: TSType[];
 
     public constructor(moduleName: string, project: Project, classes: Class[],
-        exports: Export[], imports: Import[],names: Name[],types: TSType[]) {
+                       exports: Export[], imports: Import[], names: Name[], types: TSType[]) {
         super();
-        
+
         this.name = moduleName;
         this.project = project;
         this.classes = classes;
         this.exports = exports;
-        this.imports= imports;
+        this.imports = imports;
         this.names = names;
         this.types = types;
     }
 
-    public toPojo(args?: { minimal: boolean }): ModulePojo {
-        return { id: this.id,
-            name:this.name,
-            projectId:this.projectId,
-            classes:this.classes?this.classes.map(c=>c.toPojo()):undefined,
-            exports:this.exports?this.exports.map(e=>e.toPojo()):undefined,
-            imports:this.imports?this.imports.map(i=>i.toPojo()):undefined,
-            names:this.names?this.names.map(n=>n.toPojo()):undefined,
-            types:this.types?this.types.map(t=>t.toPojo()):undefined,
+    public toPojo(args?: PojoBuildArguments): ModulePojo {
+        return {
+            id: this.id,
+            name: this.name,
+            projectId: this.projectId,
+            classes: this.classes ? this.classes.map(c => c.toPojo(args)) : undefined,
+            exports: this.exports ? this.exports.map(e => e.toPojo(args)) : undefined,
+            imports: this.imports ? this.imports.map(i => i.toPojo(args)) : undefined,
+            names: this.names ? this.names.map(n => n.toPojo(args)) : undefined,
+            types: this.types ? this.types.map(t => t.toPojo(args)) : undefined,
         }
     }
 

@@ -1,8 +1,8 @@
-import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinColumn} from "typeorm";
-import {List} from "immutable";
+import {Column, Entity, JoinColumn, ManyToOne} from "typeorm";
 import {Method} from "./Method";
-import { Type } from './Type';
-import { Base } from './Base';
+import {Type} from './Type';
+import {Base} from './Base';
+import {InterfaceTemplateParameterPojo, PojoBuilder} from "../../types";
 
 @Entity()
 export class InterfaceTemplateParameter extends Base {
