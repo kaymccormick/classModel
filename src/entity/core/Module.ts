@@ -1,3 +1,6 @@
+/**
+ * @uuid e4917dff-df99-4627-8466-ace363bfe92f
+ */
 import {
     Column,
     Entity,
@@ -6,7 +9,7 @@ import {
     ManyToOne,
     OneToMany,
     OneToOne,
-    JoinColumn
+    JoinColumn,
 } from "typeorm";
 import {Project} from "./Project";
 import {TSType} from "./TSType";
@@ -18,6 +21,9 @@ import {ModulePojo} from '../../pojo';
 import {Base} from './Base';
 import {PojoBuildArguments, PojoBuilder} from '../../types';
 
+/*
+ * @uuid a963a983-60ff-4a3e-b65e-cb01d3a43fe2
+*/
 @Entity()
 export class Module extends Base implements PojoBuilder<ModulePojo> {
     @Column()

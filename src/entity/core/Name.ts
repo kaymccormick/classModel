@@ -1,13 +1,15 @@
-import {
-    Column,
-    Entity,
-    ManyToOne,
-} from "typeorm";
+/**
+ * @uuid b3e58bf9-e0f0-4418-a858-1c8196edbbfc
+ */
+import { Column, Entity, ManyToOne } from "typeorm";
 import {Module} from "./Module";
 import {NamePojo} from '../../pojo';
 import { Base } from './Base';
 import {PojoBuildArguments, PojoBuilder} from "../../types";
 
+/*
+ * @uuid 292c55e2-8317-43be-b793-da6afefc0fa8
+*/
 @Entity()
 export class Name extends Base implements PojoBuilder<NamePojo> {
     @Column()

@@ -1,4 +1,18 @@
-import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany,ManyToMany,JoinTable,Generated,JoinColumn} from "typeorm";
+/**
+ * @uuid 85237724-bfd6-452c-9143-6f2615e67334
+ */
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    PrimaryColumn,
+    ManyToOne,
+    OneToMany,
+    ManyToMany,
+    JoinTable,
+    Generated,
+    JoinColumn,
+} from "typeorm";
 import {Module} from './Module';
 import {Method} from "./Method";
 import {Interface} from './Interface';
@@ -6,6 +20,9 @@ import {ClassPojo} from'../../pojo';
 import {PojoBuildArguments, PojoBuilder} from '../../types';
 import { Base } from './Base';
 
+/*
+ * @uuid 9b797f3e-8328-416e-a474-1d282e780d07
+*/
 @Entity()
 export class Class extends Base implements PojoBuilder<ClassPojo> {
     @Column()

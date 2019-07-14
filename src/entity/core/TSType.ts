@@ -1,4 +1,19 @@
-import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne,JoinColumn,OneToOne,ManyToMany,AfterInsert,BeforeInsert,AfterLoad} from "typeorm";
+/**
+ * @uuid 17cb9c05-a6dd-4144-9eba-7c2fdf40ccc7
+ */
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    PrimaryColumn,
+    ManyToOne,
+    JoinColumn,
+    OneToOne,
+    ManyToMany,
+    AfterInsert,
+    BeforeInsert,
+    AfterLoad,
+} from "typeorm";
 import {List} from "immutable";
 import { TypeEnum } from './TypeEnum';
 import { Name } from './Name';
@@ -17,6 +32,8 @@ TSConditionalType | TSInferType | TSParenthesizedType | TSFunctionType |
 TSConstructorType | TSMappedType | TSTupleType | TSRestType |
 TSOptionalType | TSIndexedAccessType | TSTypeOperator | TSTypeQuery |
 TSImportType | TSTypeLiteral;
+
+ * @uuid a349ab6b-7828-4323-a1e2-546a3940b8c3
 */
 @Entity()
 export class TSType extends Base implements PojoBuilder<TSTypePojo> {

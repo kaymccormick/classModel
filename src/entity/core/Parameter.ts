@@ -1,4 +1,14 @@
-import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, JoinColumn} from "typeorm";
+/**
+ * @uuid 4a76a4cb-9a31-4e90-b5f9-dd6e834be74a
+ */
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    PrimaryColumn,
+    ManyToOne,
+    JoinColumn,
+} from "typeorm";
 import {List} from "immutable";
 import {Method} from "./Method";
 import {TSType} from './TSType';
@@ -6,6 +16,9 @@ import {ParameterPojo} from '../../pojo';
 import {Base} from './Base';
 import {PojoBuildArguments, PojoBuilder} from "../../types";
 
+/*
+ * @uuid fc678b05-7d82-49af-b165-eb07fe0d6bdb
+*/
 @Entity()
 export class Parameter extends Base implements PojoBuilder<ParameterPojo> {
     @Column()

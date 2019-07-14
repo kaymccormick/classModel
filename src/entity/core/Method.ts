@@ -1,10 +1,23 @@
-import {Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, ManyToOne, OneToMany} from "typeorm";
+/**
+ * @uuid 3ff8ad83-3d9a-4a36-994f-0e25eb63604a
+ */
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    PrimaryColumn,
+    ManyToOne,
+    OneToMany,
+} from "typeorm";
 import {Parameter} from "./Parameter";
 import {Class} from "./Class";
 import {MethodPojo} from '../../pojo';
 import {Base} from './Base';
 import {PojoBuildArguments} from "../../types";
 
+/*
+ * @uuid 8f7268fe-826f-48f8-b028-dd0086b4f12f
+*/
 @Entity()
 export class Method extends Base {
     @OneToMany(type => Parameter, parameter => parameter.method)

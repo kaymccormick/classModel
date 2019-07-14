@@ -1,4 +1,7 @@
-import {TypeEnum} from "./entity/core";
+/**
+ * @uuid f92a57da-0874-459a-954f-0ce5e6e75d61
+ */
+import { TypeEnum } from "./entity/core";
 import {TypePojo} from "./types";
 
 export interface BasePojo {

@@ -1,4 +1,7 @@
-import {Connection, Repository} from 'typeorm';
+/**
+ * @uuid 71afb234-dd3e-4eab-9003-38999ba5b72a
+ */
+import { Connection, Repository } from 'typeorm';
 import EntityCore from './entityCore';
 import { copyTree } from './utils';
 import { namedTypes } from 'ast-types';
@@ -6,6 +9,9 @@ import{ CreateTypeManagerArgs } from './args';
 import{ FactoryInterface } from './types';
 import winston,{Logger} from 'winston';
 
+/*
+ * @uuid 08b90abf-18ce-4489-9fcc-7dcff848e3f8
+*/
 export class TypeManager {
 // @ts-ignore
     private connection: Connection;

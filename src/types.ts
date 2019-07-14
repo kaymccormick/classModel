@@ -1,4 +1,7 @@
-import {Map} from 'immutable';
+/**
+ * @uuid 1004cef8-53f5-4d3c-b806-1b3aafe4395a
+ */
+import { Map } from 'immutable';
 import * as EntityCore from './entity/core';
 import {MethodPojo} from "./pojo";
 
