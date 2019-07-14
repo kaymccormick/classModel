@@ -68,6 +68,7 @@ export interface ModulePojo extends BasePojo {
 export interface ProjectPojo extends BasePojo {
     modules?: ModulePojo[];
     path?: string;
+    packageJson?: any;
 }
 
 export interface TSTypePojo extends BasePojo {

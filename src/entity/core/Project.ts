@@ -13,6 +13,9 @@ export class Project extends Base implements PojoBuilder<ProjectPojo> {
     @OneToMany(type => Module, module => module.project)
     public modules?: Module[];
 
+    @Column({type: "jsonb", name: "packagejson", nullable: true})
+    public packageJson?: any;
+
     public constructor(name: string, path?: string, modules?: Module[]) {
         super();
         this.name = name;
@@ -25,6 +28,7 @@ export class Project extends Base implements PojoBuilder<ProjectPojo> {
         name:this.name,
         modules:this.modules?this.modules.map(m=>m.toPojo()):[],
         path: this.path,
+        packageJson:this.packageJson,
         };
     }
 
