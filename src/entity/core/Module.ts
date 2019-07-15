@@ -14,6 +14,7 @@ import {
 import {Project} from "./Project";
 import {TSType} from "./TSType";
 import {Class} from "./Class";
+import {Interface} from "./Interface";
 import {Export} from "./Export";
 import {Import} from "./Import";
 import {Name} from "./Name";
@@ -36,6 +37,9 @@ export class Module extends Base implements PojoBuilder<ModulePojo> {
     @OneToMany(type => Class, class_ => class_.module)
     public classes?: Class[];
 
+    @OneToMany(type => Interface, interface_ => interface_.module)
+    public interfaces?: Interface[];
+
     @OneToOne(type => Export)
     @JoinColumn()
     public defaultExport?: Export;
@@ -53,7 +57,7 @@ export class Module extends Base implements PojoBuilder<ModulePojo> {
     public types?: TSType[];
 
     public constructor(moduleName: string, project: Project, classes: Class[],
-                       exports: Export[], imports: Import[], names: Name[], types: TSType[]) {
+        exports: Export[], imports: Import[], names: Name[], types: TSType[]) {
         super();
 
         this.name = moduleName;

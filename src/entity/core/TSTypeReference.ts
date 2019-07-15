@@ -16,22 +16,18 @@ import {List} from "immutable";
 import { Name } from './Name';
 import { TSType } from './TSType';
 import { Module } from './Module';
-import { Base } from './Base';
+import { TypeBase } from './TypeBase';
 
 /*
  * @uuid ba8ad2da-cf51-4a2d-a0ee-c6c9c5b35a5a
 */
 @Entity()
-export class TSTypeReference extends Base {
-    @PrimaryColumn()
-    public id?: number;
-
+export class TSTypeReference extends TypeBase {
+@OneToOne(type => TSType)
+@JoinColumn({name: 'basetstypeid'})
+    public tsType?: TSType;
     @ManyToOne(type => Name)
     @JoinColumn()
-    public typeName?: Name;
+public typeName?: Name;
 
-    constructor(id: number) {
-        super();
-        this.id = id;
-    }
 }

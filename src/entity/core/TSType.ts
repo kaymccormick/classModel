@@ -21,6 +21,7 @@ import { Module } from './Module';
 import {Logger} from "winston";
 import {PojoBuildArguments, PojoBuilder} from '../../types';import {TSTypePojo} from "../../pojo";
 import { Base } from './Base';
+import { TypeBase } from './TypeBase';
 
 /*
 TSExpressionWithTypeArguments | TSTypeReference | TSAnyKeyword |
@@ -54,6 +55,8 @@ export class TSType extends Base implements PojoBuilder<TSTypePojo> {
     @JoinColumn()
     public module?: Module;
 
+    @Column({nullable:true})
+    public code?: string;
     @Column({name: "astnode", type: "jsonb", nullable: true})
     public astNode?: any;
 

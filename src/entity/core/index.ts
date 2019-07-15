@@ -18,3 +18,5 @@ export { InterfaceMethod } from './InterfaceMethod';
 export { Module } from './Module';
 export { Parameter } from './Parameter';
 export { Project } from './Project';
+export { TSIntersectionType } from './TSIntersectionType';
+export { TSConditionalType } from './TSConditionalType';

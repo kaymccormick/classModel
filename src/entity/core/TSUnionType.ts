@@ -4,24 +4,24 @@
 import {
     Column,
     Entity,
-    PrimaryGeneratedColumn,
-    PrimaryColumn,
-    ManyToOne,
     JoinTable,
+    JoinColumn,
     OneToOne,
     ManyToMany,
 } from "typeorm";
-import {List} from "immutable";
-import { Name } from './Name';
 import { TSType } from './TSType';
-import { Module } from './Module';
-import { Base } from './Base';
+import { TypeBase } from './TypeBase';
 
 /*
  * @uuid aa356ecd-652c-448c-9834-4666a8468dc0
 */
 @Entity()
-export class TSUnionType extends Base {
+export class TSUnionType extends TypeBase {
+
+    @OneToOne(type => TSType)
+    @JoinColumn({name: 'basetstypeid'})
+    public tsType?: TSType;
+
     /*    @OneToOne(type => Name, { nullable: true })
     @JoinColumn()
     public typeName?: Name;*/
@@ -33,8 +33,4 @@ export class TSUnionType extends Base {
     @Column({name: "astnode", type: "jsonb", nullable: true})
     public astNode?: any;
 
-    constructor(id: number) {
-        super();
-        this.id = id;
-    }
 }

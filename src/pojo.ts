@@ -47,6 +47,7 @@ export interface ImportPojo  extends BasePojo {
 }
 
 export interface InterfacePojo  extends BasePojo {
+    moduleId?: number;
     module?: ModulePojo;
     extends?: InterfacePojo;
     subinterfaces?: InterfacePojo[];
@@ -105,6 +106,7 @@ export interface InterfacePropertyPojo extends BasePojo {
     readonly?: boolean;
     optional?: boolean;
     hasInitializer?: boolean;
+    typeId?: number;
     type?: TSTypePojo;
     astNode: any;
 }

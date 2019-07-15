@@ -8,6 +8,7 @@ import { namedTypes } from 'ast-types';
 import{ CreateTypeManagerArgs } from './args';
 import{ FactoryInterface } from './types';
 import winston,{Logger} from 'winston';
+import { print } from 'recast';
 
 /*
  * @uuid 08b90abf-18ce-4489-9fcc-7dcff848e3f8
@@ -42,33 +43,40 @@ export class TypeManager {
     public findType(moduleId: number, astNode: any): Promise<EntityCore.TSType|undefined> {
         return this.tsTypeRepository.find({moduleId, astNode}).then(types => {
             if(types.length > 1) {
-                throw new Error('too many types matchingm');
+                // this error is often obscured
+                throw new Error('too many types matching');
             } else if(types.length === 0) {
-                this.logger.debug('cant find type');
+                this.logger.debug('findType returns undefined');
                 return undefined;
             }
-            this.logger.debug('found type');
+            this.logger.debug(`found type, looking for specific type instance ${types[0].tsNodeType}`);
+            try {
+            return this.connection.getRepository(types[0].tsNodeType!).find({tsTypeId: types[0].id}).then(types2_ => {
+            // @ts-ignore
+            if(types2_.length) {
+            //@ts-ignore
+                        this.logger.debug('types2', { types2: types2_[0].toPojo() });
+                                    return types[0];
+                                    } else {
+                                         return this.buildType(moduleId, types[0], types[0].astNode);
+                                    }
+                                    
+            });
+            } catch(error) {
+            if(!/^No repository/.test(error.message)) {
+            this.logger.error(error.message);
+            }
+            }
+            
             return types[0];
         });
     }
 
-    public createType(moduleId: number, astNode?: any|undefined, origin?: string): Promise<EntityCore.TSType> {
-        const tsType = this.factory.createTSType();
-        tsType.moduleId = moduleId;
-        tsType.astNode = astNode;
-        tsType.tsNodeType = astNode.type;
-        tsType.origin = origin;
-        //@ts-ignore
-        tsType.createdBy = this.createdBy;
-        return this.findType(moduleId, astNode).then(type => {
-            if(type) {
-                throw new Error('existing type');
-            }
-        }).then(() =>
-            this.tsTypeRepository.save(tsType).then(tsType1 => {
+    buildType(moduleId: number, tsType1: EntityCore.TSType, astNode: any|undefined) {
                 if (astNode.type === 'TSTypeReference') {
                     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                    const ref = new EntityCore.TSTypeReference(tsType1.id!);
+                    const ref = new EntityCore.TSTypeReference();
+                    ref.tsType = tsType1;
                     const nameRepo = this.connection.getRepository(EntityCore.Name);
                     if(astNode.typeName.type === 'Identifier' || astNode.typeName.type === 'TSQualifiedName') {
                         throw new Error(`unrecognized node type ${astNode.typeName.type}`);
@@ -93,7 +101,8 @@ export class TypeManager {
                         }
                     }).then(name__ => {
                         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-                        const ref = new EntityCore.TSTypeReference(tsType1.id!);
+                        const ref = new EntityCore.TSTypeReference();
+                        ref.tsType = tsType1;
                         this.logger.debug(`creating ts type reference with id ${tsType1.id!}`);
                         ref.typeName = name__;
                         return this.connection.manager.save(ref).catch((error: Error): void =>{
@@ -103,12 +112,117 @@ export class TypeManager {
 
                 } else if (astNode.type === 'TSUnionType') {
                     return this.handleTSUnionType(tsType1, astNode, this.tsTypeRepository);
+                } else if (astNode.type === 'TSIntersectionType') {
+                this.logger.debug('handling ts intersection type');
+                    return this.handleTSIntersectionType(tsType1, astNode, this.tsTypeRepository);
+                } else if(astNode.type === 'TSLiteralType') {
+                    return this.handleTSLiteralType(tsType1, asatnode, this.tsTypeRepository);
                 }
+                
                 return tsType1;
+                }
+
+    public createType(moduleId: number, astNode?: any|undefined, origin?: string): Promise<EntityCore.TSType> {
+        const tsType = this.factory.createTSType();
+        tsType.moduleId = moduleId;
+        tsType.astNode = astNode;
+        tsType.code = print(astNode).code;
+        
+        tsType.tsNodeType = astNode.type;
+        tsType.origin = origin;
+        //@ts-ignore
+        tsType.createdBy = this.createdBy;
+        return this.findType(moduleId, astNode).then(type => {
+            if(type) {
+                throw new Error('existing type');
+            }
+        }).then(() =>
+            this.tsTypeRepository.save(tsType).then(tsType1 => {
+                return this.buildType(moduleId, tsType1, astNode);
             }).catch((error: Error): void =>{
                 throw new Error(`unable to save tstype:${error.message}`);
             }));
     }
+
+    private handleTSLiteralType(type: EntityCore.TSType,
+        t1: namedTypes.TSLiteralType,
+        tsTypeRepo: Repository<EntityCore.TSType>,
+    ): Promise<any> {
+      const detail = new EntityCore.TSLiteralType();
+      i.tsType = type;
+        return (t1.types.map((unionNode: namedTypes.TSType) => {
+            return () => this.tsTypeRepository.find({
+                where: {
+                    astNode: copyTree(unionNode).toJS(),
+                    moduleId: type.moduleId,
+                }
+            }).then(ts => {
+                this.logger.debug(`got ${ts.length} types`);
+                if (ts.length === 0) {
+                    return this.createType(type.moduleId!, copyTree(unionNode).toJS(), 'intersection');
+                    /*
+                    const newType = this.factory.createTSType();
+                    newType.tsNodeType = unionNode.type;
+                    newType.astNode = ;
+                    newType.moduleId = type.moduleId;
+                    newType.createdBy = this.createdBy;
+                    return tsTypeRepo.save(newType);*/
+                } else {
+                    return ts[0];
+                }
+            });
+            // @ts-ignore
+        })).reduce((a, v) => a.then(r => v().then(cr => [...r, cr])), Promise.resolve([])).then(results => {
+            this.logger.debug('saving intersection type');
+            this.logger.debug(results);
+            i.types = results;
+
+            return this.connection.getRepository(EntityCore.TSIntersectionType).save(i).then(() => type).catch((error: Error): void => {
+                this.logger.debug('unable to save intersection type ' + error.message);
+            });
+        });//.reduce((a: Promise<void>, v: () => Promise<void>): Promise<void> => a.then(() => v()), Promise.resolve(undefined));
+        }
+    
+    private handleTSIntersectionType(type: EntityCore.TSType,
+        t1: namedTypes.TSIntersectionType,
+        tsTypeRepo: Repository<EntityCore.TSType>,
+    ): Promise<any> {
+    this.logger.debug('handleTSIntersectionType');
+      const i = new EntityCore.TSIntersectionType();
+      i.tsType = type;
+        return (t1.types.map((unionNode: namedTypes.TSType) => {
+            return () => this.tsTypeRepository.find({
+                where: {
+                    astNode: copyTree(unionNode).toJS(),
+                    moduleId: type.moduleId,
+                }
+            }).then(ts => {
+                this.logger.debug(`got ${ts.length} types`);
+                if (ts.length === 0) {
+                    return this.createType(type.moduleId!, copyTree(unionNode).toJS(), 'intersection');
+                    /*
+                    const newType = this.factory.createTSType();
+                    newType.tsNodeType = unionNode.type;
+                    newType.astNode = ;
+                    newType.moduleId = type.moduleId;
+                    newType.createdBy = this.createdBy;
+                    return tsTypeRepo.save(newType);*/
+                } else {
+                    return ts[0];
+                }
+            });
+            // @ts-ignore
+        })).reduce((a, v) => a.then(r => v().then(cr => [...r, cr])), Promise.resolve([])).then(results => {
+            this.logger.debug('saving intersection type');
+            this.logger.debug(results);
+            i.types = results;
+
+            return this.connection.getRepository(EntityCore.TSIntersectionType).save(i).then(() => type).catch((error: Error): void => {
+                this.logger.debug('unable to save intersection type ' + error.message);
+            });
+        });//.reduce((a: Promise<void>, v: () => Promise<void>): Promise<void> => a.then(() => v()), Promise.resolve(undefined));
+        }
+    
 
     private handleTSUnionType(type: EntityCore.TSType,
         t1: namedTypes.TSUnionType,
@@ -119,7 +233,8 @@ export class TypeManager {
             throw new Error('need id');
         }
         // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        const union = new EntityCore.TSUnionType(type.id!);
+        const union = new EntityCore.TSUnionType();
+        union.tsType = type;
         return (t1.types.map((unionNode: namedTypes.TSType) => {
             return () => this.tsTypeRepository.find({
                 where: {

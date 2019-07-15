@@ -37,6 +37,9 @@ export class InterfaceProperty extends Base implements PojoBuilder<InterfaceProp
     @Column()
     public hasInitializer?: boolean;
 
+    @Column()
+    public typeId?: number;
+
     @ManyToOne(type => TSType)
     @JoinColumn()
     public type?: TSType;
@@ -46,13 +49,14 @@ export class InterfaceProperty extends Base implements PojoBuilder<InterfaceProp
 
     public toPojo(args?: PojoBuildArguments): InterfacePropertyPojo {
         return { id: this.id,
-        iface: this.iface ? this.iface.toPojo() : undefined,
+            iface: this.iface ? this.iface.toPojo() : undefined,
             computed: this.computed,
             readonly:this.readonly,
             optional:this.optional,
             hasInitializer:this.hasInitializer,
-            type:this.type?this.type.toPojo():undefined,
-            astNode:this.astNode,
-            };
-}
+            typeId: this.typeId,
+            type:this.type? typeof this.type.toPojo === 'function' ?this.type.toPojo(args) : this.type :undefined,
+            astNode:args && args.minimal ? undefined : this.astNode,
+        };
+    }
 }

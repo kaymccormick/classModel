@@ -8,4 +8,9 @@ test('TypeManager.constructor', () => {
     const t = new TypeManager({});
 });
    
+test('TypeManager.findType', () => {
+    const t = new TypeManager({});
+    t.findType(1, { type: 'TSNumberSymbol' });
+});
+   
 

@@ -23,7 +23,11 @@ import {PojoBuildArguments, PojoBuilder} from "../../types";
 */
 @Entity()
 export class Interface extends Base implements PojoBuilder<InterfacePojo> {
-    @ManyToOne(type => Module, module => module.classes)
+    @Column()
+    public moduleId?: number;
+    
+    @ManyToOne(type => Module, module => module.interfaces)
+    @JoinColumn()
     public module?: Module;
 
     @ManyToOne(type => Interface, interface_ => interface_.subinterfaces, { nullable: true })
@@ -49,7 +53,7 @@ export class Interface extends Base implements PojoBuilder<InterfacePojo> {
             methods: this.methods? this.methods.map(m => m.toPojo()) :[],
             name:this.name,
             properties:this.properties?this.properties.map(p=>p.toPojo()):[],
-            astNode:this.astNode,
+            astNode:args && args.minimal ? undefined : this.astNode,
         }
     }
 
