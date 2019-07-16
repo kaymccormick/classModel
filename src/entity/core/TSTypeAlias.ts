@@ -15,6 +15,9 @@ import { TypeEnum } from './TypeEnum';
 import { Name } from './Name';
 import { Module } from './Module';
 import { Base } from './Base';
+import { TSTypeAliasPojo } from '../../pojo';
+import {PojoBuildArguments, PojoBuilder} from '../../types';
+
 
 /*
 TSExpressionWithTypeArguments | TSTypeReference | TSAnyKeyword |
@@ -41,8 +44,15 @@ export class TSTypeAlias extends Base {
     @Column({name: 'basetype', nullable: true})
     public baseType?: TypeEnum;
 
+    @Column()
+    public moduleId?: number;
+    
     @ManyToOne(type => Module)
-    @JoinColumn()
+    @JoinColumn({name: 'moduleid'})
     public module?: Module;
 
+    public toPojo(args?: PojoBuildArguments): TSTypeAliasPojo {
+    return {};
+    
+    }
 }

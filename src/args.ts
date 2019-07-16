@@ -5,7 +5,7 @@ import { Connection } from 'typeorm';
 import {Logger} from 'winston';
 import { FactoryInterface } from './types';
 
-export interface CreateTypeManagerArgs {
+export interface CreateManagerArgs {
     connection?: Connection;
     createdBy?: string;
     logger?: Logger;

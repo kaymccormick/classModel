@@ -1,7 +1,7 @@
 /**
  * @uuid f92a57da-0874-459a-954f-0ce5e6e75d61
  */
-import { TypeEnum } from "./entity/core";
+//import { TypeEnum } from "./entity/core";
 import {TypePojo} from "./types";
 
 export interface BasePojo {
@@ -77,9 +77,10 @@ export interface ProjectPojo extends BasePojo {
 
 export interface TSTypePojo extends BasePojo {
     tsNodeType?: string;
-    baseType?: TypeEnum;
+//    baseType?: TypeEnum;
     moduleId?: number;
     astNode?: any;
+    code?: string;
 }
 
 export interface ParameterPojo extends BasePojo {
@@ -109,4 +110,6 @@ export interface InterfacePropertyPojo extends BasePojo {
     typeId?: number;
     type?: TSTypePojo;
     astNode: any;
+}
+export interface TSTypeAliasPojo extends BasePojo {
 }

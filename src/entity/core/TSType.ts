@@ -19,7 +19,8 @@ import { TypeEnum } from './TypeEnum';
 import { Name } from './Name';
 import { Module } from './Module';
 import {Logger} from "winston";
-import {PojoBuildArguments, PojoBuilder} from '../../types';import {TSTypePojo} from "../../pojo";
+import {PojoBuildArguments, PojoBuilder} from '../../types';
+import {TSTypePojo} from "../../pojo";
 import { Base } from './Base';
 import { TypeBase } from './TypeBase';
 
@@ -75,9 +76,10 @@ export class TSType extends Base implements PojoBuilder<TSTypePojo> {
             createdBy: this.createdBy,
             origin:this.origin,
             tsNodeType:this.tsNodeType,
-            baseType: this.baseType,
+//            baseType: this.baseType,
             moduleId:this.moduleId,
-            astNode:this.astNode,
+            astNode:args && args.minimal ? undefined :this.astNode,
+            code:this.code,
         }
     }
 
