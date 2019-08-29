@@ -32,10 +32,15 @@ export class Class extends Base implements PojoBuilder<ClassPojo> {
     @JoinColumn()
     public module?: Module;
 
+    @Column({nullable: true})
+    public superClassId?: number;
+
     @ManyToOne(type => Class, class_ => class_.subClasses, { nullable: true })
+    @JoinColumn()
     public superClass?: Class;
 
     @OneToMany(type => Class, class_ => class_.superClass)
+    @JoinTable()
     public subClasses?: Class[];
 
     @ManyToMany(type => Interface, { cascade:true})
