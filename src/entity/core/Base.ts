@@ -1,7 +1,7 @@
 /**
  * @uuid b17c0089-ee22-4e8b-aaf0-3b6991714e09
  */
-import { Column, PrimaryGeneratedColumn, Generated } from "typeorm";
+import { Column, PrimaryGeneratedColumn, Generated, CreateDateColumn, UpdateDateColumn } from "typeorm";
 
 /*
  * @uuid f646e653-a085-48ff-986d-f1b535533230
@@ -22,4 +22,9 @@ export class Base {
 
     @Column({nullable: true, name: 'origin'})
     public origin?: string;
+
+    @CreateDateColumn()
+    public createDate?: number;
+    @UpdateDateColumn()
+    public updateDate?: number;
 }
