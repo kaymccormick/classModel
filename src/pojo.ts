@@ -16,7 +16,7 @@ export interface NamePojo extends BasePojo {
     moduleId?: number;
     module?: ModulePojo;
     nameKind?: string;
-    astNode: any;
+    astNode?: any;
 }
 
 export interface ClassPojo extends BasePojo {
@@ -53,7 +53,7 @@ export interface InterfacePojo  extends BasePojo {
     subinterfaces?: InterfacePojo[];
     methods?: InterfaceMethodPojo[];
     properties?: InterfacePropertyPojo[];
-    astNode: any;
+    astNode?: any;
 }
 
 
